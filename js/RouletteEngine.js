@@ -77,11 +77,14 @@
     const totalBetSpan = document.getElementById('totalBet');
     const activeBetsDiv = document.getElementById('activeBets');
 
-    let playerPoints = 100;
+    let playerPoints = typeof getPlayerPoints === 'function' ? getPlayerPoints() : 100;
     let activeBets = []; 
 
     function updatePointsDisplay() {
         pointsValue.textContent = playerPoints;
+        if (typeof setPlayerPoints === 'function') {
+            setPlayerPoints(playerPoints);
+        }
     }
 
     function updateTotalBet() {
@@ -274,12 +277,23 @@
     updateTotalBet();
     updateActiveBetsList();
 
-    // Wait for DOM to be ready and apply colors
+    function setupRouletteControls() {
+        const spinBtn = document.getElementById('spinBtn');
+        if (spinBtn) {
+            spinBtn.addEventListener('click', startSpin);
+        }
+
+        const clearBetsBtn = document.getElementById('clearBetsBtn');
+        if (clearBetsBtn) {
+            clearBetsBtn.addEventListener('click', clearAllBets);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        setupRouletteControls();
         applyColors();
     });
     
-    // Also call immediately in case DOM is already loaded
     if (document.readyState === 'loading') {
         // DOM not ready yet
     } else {

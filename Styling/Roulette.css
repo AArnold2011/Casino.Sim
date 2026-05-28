@@ -10,8 +10,8 @@
             justify-content: center;
         } 
         .roulette-box {
-                width: 40px;
-                height: 35px;
+                width: 44px;
+                height: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -24,6 +24,7 @@
                 word-break: break-all;
                 cursor: pointer;
                 transition: opacity 0.3s;
+                border-radius: 6px;
             }
                 .roulette-box.selected {
                     outline: 3px solid #cccccc;
@@ -52,6 +53,63 @@
             align-items: center;
             justify-content: flex-start;
         }
+        #rouletteArea {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        #spinnerContainer {
+            flex: 0 0 240px;
+            display: flex;
+            justify-content: center;
+        }
+        #boardArea {
+            flex: 1 1 560px;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        #zeroRow {
+            display: flex;
+            justify-content: center;
+        }
+        #zeroRow > div,
+        #boardGrid > div,
+        #specialRows > div {
+            width: 44px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 11px;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1px;
+            word-break: break-all;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            border-radius: 6px;
+        }
+        #zeroRow > div {
+            width: 90px;
+        }
+        #boardGrid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(42px, 1fr));
+            gap: 6px;
+            justify-items: center;
+        }
+        #specialRows {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(100px, 1fr));
+            gap: 8px;
+        }
         #betMessage {
             font-size: 16px;
             font-weight: bold;
@@ -65,43 +123,43 @@
         }
         
         /* Force roulette box colors - override any external CSS */
-        div[class="0"] { background-color: #018a18 !important; color: #ffffff !important; }
-        div[class="1"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="2"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="3"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="4"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="5"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="6"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="7"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="8"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="9"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="10"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="11"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="12"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="13"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="14"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="15"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="16"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="17"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="18"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="19"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="20"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="21"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="22"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="23"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="24"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="25"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="26"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="27"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="28"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="29"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="30"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="31"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="32"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="33"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="34"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class="35"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class="36"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="0"] { background-color: #018a18 !important; color: #ffffff !important; }
+        div[class~="1"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="2"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="3"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="4"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="5"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="6"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="7"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="8"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="9"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="10"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="11"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="12"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="13"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="14"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="15"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="16"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="17"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="18"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="19"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="20"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="21"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="22"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="23"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="24"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="25"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="26"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="27"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="28"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="29"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="30"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="31"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="32"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="33"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="34"] { background-color: #c0392b !important; color: #ffffff !important; }
+        div[class~="35"] { background-color: #2c3e50 !important; color: #ffffff !important; }
+        div[class~="36"] { background-color: #c0392b !important; color: #ffffff !important; }
         
         div.Red { background-color: #c0392b !important; color: #ffffff !important; }
         div.Black { background-color: #2c3e50 !important; color: #ffffff !important; }

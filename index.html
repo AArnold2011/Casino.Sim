@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="title-screen" id="titleScreen">
+        <div class="title-content">
+            <div class="title-text">Casino Simulator</div>
+            <div class="prompt-text">Press any key to begin</div>
+        </div>
+    </div>
+    <header class="casino-header">
+        <h1>Casino Simulator</h1>
+        <div class="points-bar">Points: <span id="pointsValue">0</span></div>
+    </header>
+    <main class="casino-main">
+        <section class="game-card">
+            <p>Welcome to the casino. Choose a game below and use the same points balance across every page.</p>
+        </section>
+        <nav class="game-grid">
+            <a class="game-tile" href="Roulette.html">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Crect width='320' height='200' rx='24' ry='24' fill='white'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='28' fill='%23111'%3ERoulette%3C/text%3E%3C/svg%3E" alt="Roulette game image">
+                <span>Roulette</span>
+            </a>
+            <a class="game-tile" href="Blackjack.html">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Crect width='320' height='200' rx='24' ry='24' fill='white'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='28' fill='%23111'%3EBlackjack%3C/text%3E%3C/svg%3E" alt="Blackjack game image">
+                <span>Blackjack</span>
+            </a>
+            <a class="game-tile" href="Baccarat.html">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Crect width='320' height='200' rx='24' ry='24' fill='white'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='28' fill='%23111'%3EBaccarat%3C/text%3E%3C/svg%3E" alt="Baccarat game image">
+                <span>Baccarat</span>
+            </a>
+            <a class="game-tile" href="Slots.html">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Crect width='320' height='200' rx='24' ry='24' fill='white'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='28' fill='%23111'%3ESlots%3C/text%3E%3C/svg%3E" alt="Slots game image">
+                <span>Slots</span>
+            </a>
+            <a class="game-tile" href="TexasHoldem.html">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Crect width='320' height='200' rx='24' ry='24' fill='white'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='24' fill='%23111'%3ETexas%20Hold%27em%3C/text%3E%3C/svg%3E" alt="Texas Hold'em game image">
+                <span>Texas Hold'em</span>
+            </a>
+        </nav>
+    </main>
+    <script src="JS/PointsManager.js"></script>
+    <script>initializeSharedPoints();</script>
+</body>
+</html>
