@@ -1,4 +1,4 @@
-    .spinner { 
+.spinner { 
             height: 202px;
             width: 202px; 
             border-radius: 100%; 
@@ -53,39 +53,65 @@
             align-items: center;
             justify-content: flex-start;
         }
-        #rouletteArea {
+        #rouletteContainer {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: flex-start;
             gap: 24px;
-            margin-top: 20px;
+            margin: 20px;
         }
-        #spinnerContainer {
-            flex: 0 0 240px;
+        #spinnerSection {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-width: 240px;
+            max-width: 280px;
         }
-        #boardArea {
-            flex: 1 1 560px;
-            min-width: 280px;
+        #boardSection {
             display: flex;
             flex-direction: column;
             gap: 14px;
+            flex: 1 1 720px;
+            min-width: 320px;
         }
         #zeroRow {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
+        }
+        #boardGrid,
+        #firstDozenRow,
+        #dozenRow,
+        #specialRows {
+            display: grid;
+            gap: 6px;
+            justify-items: center;
+        }
+        #boardGrid {
+            grid-template-columns: repeat(12, 44px);
+            justify-content: start;
+        }
+        #firstDozenRow {
+            grid-template-columns: repeat(3, minmax(42px, 1fr));
+        }
+        #dozenRow {
+            grid-template-columns: repeat(3, minmax(42px, 1fr));
+        }
+        #specialRows {
+            grid-template-columns: repeat(6, minmax(42px, 1fr));
         }
         #zeroRow > div,
         #boardGrid > div,
-        #specialRows > div {
+        #specialRows > div,
+        #firstDozenRow > div,
+        #dozenRow > div {
             width: 44px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 2px;
+            margin: 0;
             box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.2);
             font-size: 11px;
@@ -99,16 +125,11 @@
         #zeroRow > div {
             width: 90px;
         }
-        #boardGrid {
-            display: grid;
-            grid-template-columns: repeat(12, minmax(42px, 1fr));
-            gap: 6px;
-            justify-items: center;
+        .span4 {
+            grid-column: span 3;
         }
-        #specialRows {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(100px, 1fr));
-            gap: 8px;
+        .span2 {
+            grid-column: span 1;
         }
         #betMessage {
             font-size: 16px;
@@ -122,54 +143,54 @@
             text-align: left;
         }
         
-        /* Force roulette box colors - override any external CSS */
-        div[class~="0"] { background-color: #018a18 !important; color: #ffffff !important; }
-        div[class~="1"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="2"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="3"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="4"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="5"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="6"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="7"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="8"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="9"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="10"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="11"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="12"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="13"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="14"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="15"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="16"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="17"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="18"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="19"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="20"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="21"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="22"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="23"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="24"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="25"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="26"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="27"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="28"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="29"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="30"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="31"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="32"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="33"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="34"] { background-color: #c0392b !important; color: #ffffff !important; }
-        div[class~="35"] { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div[class~="36"] { background-color: #c0392b !important; color: #ffffff !important; }
+        /* Casino green/brown color theme */
+        div[class~="0"] { background-color: #1a6b2a !important; color: #ffffff !important; }
+        div[class~="1"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="2"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="3"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="4"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="5"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="6"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="7"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="8"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="9"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="10"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="11"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="12"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="13"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="14"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="15"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="16"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="17"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="18"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="19"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="20"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="21"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="22"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="23"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="24"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="25"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="26"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="27"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="28"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="29"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="30"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="31"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="32"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="33"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="34"] { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div[class~="35"] { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div[class~="36"] { background-color: #8b1a1a !important; color: #ffffff !important; }
         
-        div.Red { background-color: #c0392b !important; color: #ffffff !important; }
-        div.Black { background-color: #2c3e50 !important; color: #ffffff !important; }
-        div.Even { background-color: #018a18 !important; color: #ffffff !important; }
-        div.Odd { background-color: #018a18 !important; color: #ffffff !important; }
-        div.Low { background-color: #018a18 !important; color: #ffffff !important; }
-        div.High { background-color: #018a18 !important; color: #ffffff !important; }
-        div.first { background-color: #018a18 !important; color: #ffffff !important; }
-        div.second { background-color: #018a18 !important; color: #ffffff !important; }
-        div.third { background-color: #018a18 !important; color: #ffffff !important; }
-        div.columnone { background-color: #018a18 !important; color: #ffffff !important; }
-        div.columntwo { background-color: #018a18 !important; color: #ffffff !important; }
-        div.columnthree { background-color: #018a18 !important; color: #ffffff !important; }
+        div.Red    { background-color: #8b1a1a !important; color: #ffffff !important; }
+        div.Black  { background-color: #2c2c2c !important; color: #ffffff !important; }
+        div.Even   { background-color: #1a6b2a !important; color: #ffffff !important; }
+        div.Odd    { background-color: #1a6b2a !important; color: #ffffff !important; }
+        div.Low    { background-color: #1a6b2a !important; color: #ffffff !important; }
+        div.High   { background-color: #1a6b2a !important; color: #ffffff !important; }
+        div.first  { background-color: #5c2d0e !important; color: #f5c842 !important; }
+        div.second { background-color: #5c2d0e !important; color: #f5c842 !important; }
+        div.third  { background-color: #5c2d0e !important; color: #f5c842 !important; }
+        div.columnone   { background-color: #5c2d0e !important; color: #f5c842 !important; }
+        div.columntwo   { background-color: #5c2d0e !important; color: #f5c842 !important; }
+        div.columnthree { background-color: #5c2d0e !important; color: #f5c842 !important; }

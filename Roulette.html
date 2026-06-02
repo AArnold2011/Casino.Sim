@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette - AArnold2011</title>
+    <title>Roulette</title>
     <link rel="icon" href="roulettefavicon.ico" type="image/x-icon"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,103 +12,96 @@
     <link rel="stylesheet" href="Styling/Roulette.css">
 </head>
 <body>
-    <div id="topContainer">
-        <div id="messageContainer">
+    <nav class="game-menu">
+            <a class="game-link" href="Roulette.html">Roulette</a>
+            <a class="game-link" href="Baccarat.html">Baccarat</a>
+            <a class="game-link" href="Slots.html">Slots</a>
+            <a class="game-link" href="TexasHoldem.html">Texas Hold'em</a>
+        </nav>
+    <div id="rouletteContainer">
+        <!-- Left: Spinner and Controls -->
+        <div id="spinnerSection">
+            <div class="spinner" id="spinner">
+                <img src="images/363802D7-E46A-4E5E-9B11-C96A1D1F40E1_4_5005_c-removebg-preview.png" alt="roulette wheel">
+            </div>
             <p id="pointsDisplay">Points: <span id="pointsValue">100</span></p>
-            <div>
-                <label>Amount: <input id="betAmount" type="number" min="1" value="1"></label>
+            <div style="margin-bottom: 12px;">
+                <label>Bet Amount: <input id="betAmount" type="number" min="1" value="1"></label>
             </div>
-            <div>
-                <label>Total Bet: <span id="totalBet">0</span></label>
-            </div>
-        
-            <p id="betMessage"></p>
+            <button id="spinBtn" class="roulette-box spin-button">Spin</button>
+            <button id="clearBetsBtn" class="roulette-box" style="margin-top: 10px; width: auto; padding: 8px 12px;">Clear Bets</button>
+            <p id="betMessage" style="margin-top: 12px; min-height: 30px;"></p>
             <div id="activeBets"></div>
-            <button id="clearBetsBtn" onclick="clearAllBets()" style="margin-top: 10px; font-size: 11px;">Clear All Bets</button>
+            <div style="margin-top: 8px;">Total Bet: <span id="totalBet">0</span></div>
         </div>
-        <div id="spinnerContainer">
-            <Div class="spinner" id="spinner">
-                <img src="Images/363802D7-E46A-4E5E-9B11-C96A1D1F40E1_4_5005_c-removebg-preview.png" alt="roulette wheel">
-            </Div>
-            <div style="margin-top: 15px;">
-                <button id="spinBtn" onclick="startSpin()"> 
-                    Spin 
-                </button> 
+
+        <!-- Right: Board with Numbers and Special Boxes -->
+        <div id="boardSection">
+            <div id="zeroRow">
+                <div class="0">0</div>
+            </div>
+
+            <div id="boardGrid">
+                <!-- Numbers laid out in the classic roulette row order -->
+                <div class="1">1</div>
+                <div class="4">4</div>
+                <div class="7">7</div>
+                <div class="10">10</div>
+                <div class="13">13</div>
+                <div class="16">16</div>
+                <div class="19">19</div>
+                <div class="22">22</div>
+                <div class="25">25</div>
+                <div class="28">28</div>
+                <div class="31">31</div>
+                <div class="34">34</div>
+                <div class="2">2</div>
+                <div class="5">5</div>
+                <div class="8">8</div>
+                <div class="11">11</div>
+                <div class="14">14</div>
+                <div class="17">17</div>
+                <div class="20">20</div>
+                <div class="23">23</div>
+                <div class="26">26</div>
+                <div class="29">29</div>
+                <div class="32">32</div>
+                <div class="35">35</div>
+                <div class="3">3</div>
+                <div class="6">6</div>
+                <div class="9">9</div>
+                <div class="12">12</div>
+                <div class="15">15</div>
+                <div class="18">18</div>
+                <div class="21">21</div>
+                <div class="24">24</div>
+                <div class="27">27</div>
+                <div class="30">30</div>
+                <div class="33">33</div>
+                <div class="36">36</div>
+                <div class="columnone">Column 1</div>
+                <div class="columntwo">Column 2</div>
+                <div class="columnthree">Column 3</div>
+            </div>
+
+            <div id="firstDozenRow">
+                <div class="first span4">First Dozen</div>
+            </div>
+
+            <div id="dozenRow">
+                <div class="second span4">Second Dozen</div>
+                <div class="third span4">Third Dozen</div>
+            </div>
+
+            <div id="specialRows">
+                <div class="Red span2">Red</div>
+                <div class="Black span2">Black</div>
+                <div class="Even span2">Even</div>
+                <div class="Odd span2">Odd</div>
+                <div class="Low span2">Low</div>
+                <div class="High span2">High</div>
             </div>
         </div>
-    </div>
-
-    <div style="margin-top: 30px;">
-    <!-- Column 1: 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, Column One -->
-    <div style="display: inline-block; vertical-align: top;">
-        <div class="1">1</div>
-        <div class="4">4</div>
-        <div class="7">7</div>
-        <div class="10">10</div>
-        <div class="13">13</div>
-        <div class="16">16</div>
-        <div class="19">19</div>
-        <div class="22">22</div>
-        <div class="25">25</div>
-        <div class="28">28</div>
-        <div class="31">31</div>
-        <div class="34">34</div>
-        <div class="columnone">Column One</div>
-    </div>
-
-    <!-- Column 2: 0, 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, columntwo -->
-    <div style="display: inline-block; vertical-align: top; margin-left: 2px; margin-top: -36px;">
-        <div class="0">0</div>
-        <div class="2">2</div>
-        <div class="5">5</div>
-        <div class="8">8</div>
-        <div class="11">11</div>
-        <div class="14">14</div>
-        <div class="17">17</div>
-        <div class="20">20</div>
-        <div class="23">23</div>
-        <div class="26">26</div>
-        <div class="29">29</div>
-        <div class="32">32</div>
-        <div class="35">35</div>
-        <div class="columntwo">Column Two</div>
-    </div>
-
-    <!-- Column 3: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, columnthree -->
-    <div style="display: inline-block; vertical-align: top; margin-left: 2px;">
-        <div class="3">3</div>
-        <div class="6">6</div>
-        <div class="9">9</div>
-        <div class="12">12</div>
-        <div class="15">15</div>
-        <div class="18">18</div>
-        <div class="21">21</div>
-        <div class="24">24</div>
-        <div class="27">27</div>
-        <div class="30">30</div>
-        <div class="33">33</div>
-        <div class="36">36</div>
-        <div class="columnthree">Column Three</div>
-    </div>
-
-    <!-- Special blocks grid 3x3 -->
-    <div style="margin-top: 16px;">
-        <div style="display: inline-block; margin-right: 6px;">
-            <div class="Red">Red</div>
-            <div class="Black">Black</div>
-            <div class="Even">Even</div>
-        </div>
-        <div style="display: inline-block; margin-right: 6px;">
-            <div class="Odd">Odd</div>
-            <div class="Low">Low</div>
-            <div class="High">High</div>
-        </div>
-        <div style="display: inline-block;">
-            <div class="first">First Dozen</div>
-            <div class="second">Second Dozen</div>
-            <div class="third">Third Dozen</div>
-        </div>
-    </div>
     </div>
     
     <script src="js/RouletteEngine.js"></script> 
