@@ -28,8 +28,8 @@
             <div style="margin-bottom: 12px;">
                 <label>Bet Amount: <input id="betAmount" type="number" min="1" value="1"></label>
             </div>
-            <button id="spinBtn" class="roulette-box spin-button">Spin</button>
-            <button id="clearBetsBtn" class="roulette-box" style="margin-top: 10px; width: auto; padding: 8px 12px;">Clear Bets</button>
+            <button id="spinBtn" onclick="startSpin()" class="roulette-box spin-button">Spin</button>
+            <button id="clearBetsBtn" onclick="clearAllBets()" class="roulette-box" style="margin-top: 10px; width: auto; padding: 8px 12px;">Clear Bets</button>
             <p id="betMessage" style="margin-top: 12px; min-height: 30px;"></p>
             <div id="activeBets"></div>
             <div style="margin-top: 8px;">Total Bet: <span id="totalBet">0</span></div>
@@ -37,69 +37,85 @@
 
         <!-- Right: Board with Numbers and Special Boxes -->
         <div id="boardSection">
+            <!-- Row 0: Zero -->
             <div id="zeroRow">
                 <div class="0">0</div>
             </div>
 
-            <div id="boardGrid">
-                <!-- Numbers laid out in the classic roulette row order -->
+            <!-- Row 1: Numbers 1-12 -->
+            <div class="numberRow">
                 <div class="1">1</div>
-                <div class="4">4</div>
-                <div class="7">7</div>
-                <div class="10">10</div>
-                <div class="13">13</div>
-                <div class="16">16</div>
-                <div class="19">19</div>
-                <div class="22">22</div>
-                <div class="25">25</div>
-                <div class="28">28</div>
-                <div class="31">31</div>
-                <div class="34">34</div>
                 <div class="2">2</div>
-                <div class="5">5</div>
-                <div class="8">8</div>
-                <div class="11">11</div>
-                <div class="14">14</div>
-                <div class="17">17</div>
-                <div class="20">20</div>
-                <div class="23">23</div>
-                <div class="26">26</div>
-                <div class="29">29</div>
-                <div class="32">32</div>
-                <div class="35">35</div>
                 <div class="3">3</div>
+                <div class="4">4</div>
+                <div class="5">5</div>
                 <div class="6">6</div>
+                <div class="7">7</div>
+                <div class="8">8</div>
                 <div class="9">9</div>
+                <div class="10">10</div>
+                <div class="11">11</div>
                 <div class="12">12</div>
+            </div>
+
+            <!-- Row 2: Numbers 13-24 -->
+            <div class="numberRow">
+                <div class="13">13</div>
+                <div class="14">14</div>
                 <div class="15">15</div>
+                <div class="16">16</div>
+                <div class="17">17</div>
                 <div class="18">18</div>
+                <div class="19">19</div>
+                <div class="20">20</div>
                 <div class="21">21</div>
+                <div class="22">22</div>
+                <div class="23">23</div>
                 <div class="24">24</div>
+            </div>
+
+            <!-- Row 3: Numbers 25-36 -->
+            <div class="numberRow">
+                <div class="25">25</div>
+                <div class="26">26</div>
                 <div class="27">27</div>
+                <div class="28">28</div>
+                <div class="29">29</div>
                 <div class="30">30</div>
+                <div class="31">31</div>
+                <div class="32">32</div>
                 <div class="33">33</div>
+                <div class="34">34</div>
+                <div class="35">35</div>
                 <div class="36">36</div>
+            </div>
+
+            <!-- Special Boxes Row 1 -->
+            <div class="specialRow">
+                <div class="Red">Red</div>
+                <div class="Black">Black</div>
+                <div class="Even">Even</div>
+            </div>
+
+            <!-- Special Boxes Row 2 -->
+            <div class="specialRow">
+                <div class="Odd">Odd</div>
+                <div class="Low">Low</div>
+                <div class="High">High</div>
+            </div>
+
+            <!-- Special Boxes Row 3 -->
+            <div class="specialRow">
+                <div class="first">First Dozen</div>
+                <div class="second">Second Dozen</div>
+                <div class="third">Third Dozen</div>
+            </div>
+
+            <!-- Column Bets -->
+            <div class="specialRow">
                 <div class="columnone">Column 1</div>
                 <div class="columntwo">Column 2</div>
                 <div class="columnthree">Column 3</div>
-            </div>
-
-            <div id="firstDozenRow">
-                <div class="first span4">First Dozen</div>
-            </div>
-
-            <div id="dozenRow">
-                <div class="second span4">Second Dozen</div>
-                <div class="third span4">Third Dozen</div>
-            </div>
-
-            <div id="specialRows">
-                <div class="Red span2">Red</div>
-                <div class="Black span2">Black</div>
-                <div class="Even span2">Even</div>
-                <div class="Odd span2">Odd</div>
-                <div class="Low span2">Low</div>
-                <div class="High span2">High</div>
             </div>
         </div>
     </div>
