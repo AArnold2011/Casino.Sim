@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="Styling/TexasHoldem.css">
 </head>
 <body class="game-page">
+    <a class="return-home-badge" href="index.html" aria-label="Return to home">
+        <img src="images/blue-curved-return-arrow.png" alt="Return to home">
+    </a>
+    <nav class="game-menu">
+        <a class="game-link" href="Roulette.html">Roulette</a>
+        <a class="game-link" href="Baccarat.html">Baccarat</a>
+        <a class="game-link" href="Slots.html">Slots</a>
+        <a class="game-link" href="TexasHoldem.html">Texas Hold'em</a>
+    </nav>
     <div class="game-container">
         <h1>Texas Hold'em Poker</h1>
 
@@ -49,6 +58,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction1"></div>
                 <div class="blind-indicator" id="botBlind1"></div>
                 <div class="chip-stack" id="botChipStack1">
                     <div class="chips-amount" id="botChips1">500</div>
@@ -61,6 +71,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction2"></div>
                 <div class="blind-indicator" id="botBlind2"></div>
                 <div class="chip-stack" id="botChipStack2">
                     <div class="chips-amount" id="botChips2">500</div>
@@ -73,6 +84,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction3"></div>
                 <div class="blind-indicator" id="botBlind3"></div>
                 <div class="chip-stack" id="botChipStack3">
                     <div class="chips-amount" id="botChips3">500</div>
@@ -86,6 +98,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction4"></div>
                 <div class="blind-indicator" id="botBlind4"></div>
                 <div class="chip-stack" id="botChipStack4">
                     <div class="chips-amount" id="botChips4">500</div>
@@ -98,6 +111,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction5"></div>
                 <div class="blind-indicator" id="botBlind5"></div>
                 <div class="chip-stack" id="botChipStack5">
                     <div class="chips-amount" id="botChips5">500</div>
@@ -110,6 +124,7 @@
                     <div class="card card-back"></div>
                     <div class="card card-back"></div>
                 </div>
+                <div class="bot-action" id="botAction6"></div>
                 <div class="blind-indicator" id="botBlind6"></div>
                 <div class="chip-stack" id="botChipStack6">
                     <div class="chips-amount" id="botChips6">500</div>
@@ -182,6 +197,7 @@
     </div>
 
     <script src="js/PointsManager.js"></script>
+    <script>initializeSharedPoints();</script>
     <script src="js/TexasHoldemEngine.js"></script>
 </body>
 </html>

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'LEMONMILK';
+  src: url('../fonts/LEMONMILK-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
 html{
   --text: #f5f4ff;
   --background: #010104;
@@ -6,8 +12,9 @@ html{
   --accent: #120A8F;
 }
 body{
+    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
     color: var(--text);
-    background: var(--background)
+    background: var(--background);
 }
 .primarycontent{
     background-color: var(--secondary);
@@ -177,25 +184,59 @@ a:active {
     color: #111;
 }
 
-.return-home-badge {
+.title-screen {
     position: fixed;
-    bottom: 18px;
-    left: 18px;
-    width: 84px;
-    height: 84px;
-    border-radius: 22px;
-    overflow: hidden;
-    border: 2px solid var(--text);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-    z-index: 1000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, rgba(255, 238, 150, 0.15), transparent 35%),
+                linear-gradient(180deg, #080707 0%, #040407 100%);
+    z-index: 9999;
 }
 
-.return-home-badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.title-content {
+    text-align: center;
+    padding: 2rem 2.5rem;
+}
+
+.title-text {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.casino-text {
+    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
+    font-size: 6rem;
+    line-height: 0.9;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffd56d, #ffed9e, #f9d35c, #f6c737, #ffd46f);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 18px rgba(255, 220, 130, 0.85);
+}
+
+.simulator-text {
+    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #f9d671;
+    text-shadow: 0 0 14px rgba(255, 223, 140, 0.65);
+}
+
+.prompt-text {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    color: #f8e7b6;
+    opacity: 0.95;
+    animation: pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
 }
 
 .game-page {

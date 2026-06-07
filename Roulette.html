@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="Styling/Roulette.css">
 </head>
 <body>
+    <a class="return-home-badge" href="index.html" aria-label="Return to home">
+        <img src="images/blue-curved-return-arrow.png" alt="Return to home">
+    </a>
     <nav class="game-menu">
             <a class="game-link" href="Roulette.html">Roulette</a>
             <a class="game-link" href="Baccarat.html">Baccarat</a>
@@ -28,8 +31,8 @@
             <div style="margin-bottom: 12px;">
                 <label>Bet Amount: <input id="betAmount" type="number" min="1" value="1"></label>
             </div>
-            <button id="spinBtn" onclick="startSpin()" class="roulette-box spin-button">Spin</button>
-            <button id="clearBetsBtn" onclick="clearAllBets()" class="roulette-box" style="margin-top: 10px; width: auto; padding: 8px 12px;">Clear Bets</button>
+            <button id="spinBtn" class="roulette-box spin-button">Spin</button>
+            <button id="clearBetsBtn" class="roulette-box" style="margin-top: 10px; width: auto; padding: 8px 12px;">Clear Bets</button>
             <p id="betMessage" style="margin-top: 12px; min-height: 30px;"></p>
             <div id="activeBets"></div>
             <div style="margin-top: 8px;">Total Bet: <span id="totalBet">0</span></div>
@@ -120,6 +123,8 @@
         </div>
     </div>
     
+    <script src="js/PointsManager.js"></script>
+    <script>initializeSharedPoints();</script>
     <script src="js/RouletteEngine.js"></script> 
 </body>
 </html>

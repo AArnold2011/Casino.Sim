@@ -7,17 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Styling/style.css">
 </head>
 <body>
     <div class="title-screen" id="titleScreen">
         <div class="title-content">
-            <div class="title-text">Casino Simulator</div>
+            <div class="title-text">
+                <span class="casino-text">Casino</span>
+                <span class="simulator-text">Simulator</span>
+            </div>
             <div class="prompt-text">Press any key to begin</div>
         </div>
     </div>
     <header class="casino-header">
         <h1>Casino Simulator</h1>
-        <div class="points-bar">Points: <span id="pointsValue">0</span></div>
+        <div class="points-bar">Points: <span id="pointsValue">1000</span></div>
     </header>
     <main class="casino-main">
         <section class="game-card">
@@ -48,5 +52,28 @@
     </main>
     <script src="js/PointsManager.js"></script>
     <script>initializeSharedPoints();</script>
+    <script>
+        (function() {
+            var titleScreen = document.getElementById('titleScreen');
+            if (!titleScreen) return;
+
+            var referrer = document.referrer;
+            var sameOriginReferrer = false;
+            try {
+                sameOriginReferrer = referrer && new URL(referrer).origin === location.origin;
+            } catch (e) {
+                sameOriginReferrer = false;
+            }
+
+            if (sameOriginReferrer) {
+                titleScreen.style.display = 'none';
+                return;
+            }
+
+            document.addEventListener('keydown', function () {
+                titleScreen.style.display = 'none';
+            }, { once: true });
+        })();
+    </script>
 </body>
 </html>

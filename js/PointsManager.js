@@ -3,7 +3,8 @@ const POINTS_KEY = 'casinoPoints';
 function getPlayerPoints() {
     const stored = parseInt(localStorage.getItem(POINTS_KEY), 10);
     if (!Number.isFinite(stored) || stored < 0) {
-        return 100;
+        setPlayerPoints(1000);
+        return 1000;
     }
     return stored;
 }
