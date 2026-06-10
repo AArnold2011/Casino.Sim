@@ -1,4 +1,3 @@
-// ── Slot machine: symbols & reel strip ───────────
     const SLOT_SYMBOLS = {
         seven:  { glyph: '7',    cls: 'sym-seven'  },
         bar:    { glyph: 'BAR',  cls: 'sym-bar'    },
@@ -9,8 +8,6 @@
         cherry: { glyph: '\uD83C\uDF52', cls: 'sym-cherry' }
     };
 
-    // Physical reel strip — symbol frequency on the strip sets the odds,
-    // exactly like a real mechanical machine (20 stops per reel).
     const REEL_STRIP = [
         'seven', 'lemon', 'bell', 'orange', 'cherry',
         'lemon', 'grape', 'bar', 'lemon', 'orange',
@@ -21,7 +18,6 @@
     const STRIP_COPIES = 3;
     const REEL_COUNT = 3;
 
-    // Total payout multipliers on the bet (bet is taken up front)
     const THREE_OF_A_KIND_PAYS = {
         seven: 120,
         bar: 40,
@@ -38,7 +34,6 @@
     const BET_MAX = 500;
     const BET_STEP = 5;
 
-    // ── DOM ──────────────────────────────────────────
     const slotMessage = document.getElementById('slotMessage');
     const creditsValue = document.getElementById('creditsValue');
     const betReadout = document.getElementById('betReadout');
@@ -66,13 +61,11 @@
     let cellHeight = 0;
     let spinStartTime = null;
 
-    // Per-reel state: offset is a float position on the strip (in cells)
     const reels = [];
     for (let i = 0; i < REEL_COUNT; i++) {
         reels.push({ offset: i * 5, from: 0, target: 0, duration: 0, done: true });
     }
 
-    // ── Setup ────────────────────────────────────────
     function buildReels() {
         reelStrips.forEach(function(strip) {
             strip.innerHTML = '';
@@ -100,7 +93,6 @@
         reelStrips[i].style.transform = 'translateY(' + (-pos * cellHeight) + 'px)';
     }
 
-    // ── Displays ─────────────────────────────────────
     function currentBet() {
         return betAmount;
     }
@@ -144,7 +136,6 @@
         lever.classList.toggle('disabled', !enabled);
     }
 
-    // ── Spin ─────────────────────────────────────────
     function startSpin() {
         if (isSpinning) return;
 
@@ -164,13 +155,11 @@
         lastWinValue.textContent = 0;
         slotMessage.textContent = 'Spinning...';
 
-        // Each reel stops on a uniformly random strip position —
-        // the strip composition supplies the real odds.
         reels.forEach(function(reel, i) {
             const stop = Math.floor(Math.random() * STRIP_LENGTH);
             const current = ((reel.offset % STRIP_LENGTH) + STRIP_LENGTH) % STRIP_LENGTH;
             const delta = ((stop - current) % STRIP_LENGTH + STRIP_LENGTH) % STRIP_LENGTH;
-            const loops = 3 + i; // later reels travel further
+            const loops = 3 + i; 
             reel.from = reel.offset;
             reel.target = reel.offset + loops * STRIP_LENGTH + delta;
             reel.duration = 1300 + i * 550;
@@ -213,7 +202,6 @@
         }
     }
 
-    // ── Resolution ───────────────────────────────────
     function paylineSymbols() {
         return reels.map(function(reel) {
             const stop = Math.round(reel.offset) % STRIP_LENGTH;
@@ -257,7 +245,6 @@
         setControlsEnabled(true);
     }
 
-    // ── Lever ────────────────────────────────────────
     function pullLever() {
         if (isSpinning || lever.classList.contains('pulled')) return;
         const bet = currentBet();
@@ -270,7 +257,6 @@
         setTimeout(function() { lever.classList.remove('pulled'); }, 700);
     }
 
-    // ── Wiring ───────────────────────────────────────
     function setupSlotsControls() {
         spinBtn.addEventListener('click', startSpin);
         betBtn.addEventListener('click', openBetPopup);
