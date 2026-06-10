@@ -102,26 +102,22 @@
     }
 
     function disableBetting() {
-        // Disable all roulette boxes
         const allBoxes = document.querySelectorAll('.roulette-box');
         allBoxes.forEach(box => {
             box.classList.add('disabled');
         });
         
-        // Disable bet amount input and clear bets button
         betAmountInput.disabled = true;
         document.getElementById('clearBetsBtn').disabled = true;
         document.getElementById('spinBtn').disabled = true;
     }
 
     function enableBetting() {
-        // Enable all roulette boxes
         const allBoxes = document.querySelectorAll('.roulette-box');
         allBoxes.forEach(box => {
             box.classList.remove('disabled');
         });
         
-        // Enable bet amount input and clear bets button
         betAmountInput.disabled = false;
         document.getElementById('clearBetsBtn').disabled = false;
         document.getElementById('spinBtn').disabled = false;
@@ -130,7 +126,6 @@
     function clearAllBets() {
         if (isSpinning) return;
         
-        // Remove selected class from all boxes
         activeBets.forEach(bet => {
             if (bet.element) {
                 bet.element.classList.remove('selected');
@@ -142,17 +137,12 @@
         betMessage.textContent = 'All bets cleared';
     }
 
-    // return an object with multiplier and label for display given an internal choice string
     function getPayoutForChoice(choice) {
         if (!choice) return { multiplier: 0, label: '-' };
         const c = choice.toLowerCase().trim();
-        // straight numeric
         if (/^\d+$/.test(c)) return { multiplier: 35, label: '35:1' };
-        // even money
         if (['red','black','even','odd','low','high'].includes(c)) return { multiplier: 1, label: '1:1' };
-        // dozens
         if (['first','first dozen','dozen1','second','second dozen','dozen2','third','third dozen','dozen3'].includes(c)) return { multiplier: 2, label: '2:1' };
-        // columns
         if (['columnone','columntwo','columnthree','col1','col2','col3','column 1','column 2','column 3'].includes(c)) return { multiplier: 2, label: '2:1' };
         return { multiplier: 0, label: '-' };
     }
@@ -168,16 +158,13 @@
         if (!choice) { betMessage.textContent = 'No choice selected'; return; }
         if (!Number.isFinite(amount) || amount <= 0) { betMessage.textContent = 'Enter a valid bet amount'; return; }
         
-        // Check if this bet already exists
         const existingBetIndex = activeBets.findIndex(bet => bet.choice === choice);
         
         if (existingBetIndex !== -1) {
-            // Remove the bet (toggle off)
             activeBets.splice(existingBetIndex, 1);
             element.classList.remove('selected');
             betMessage.textContent = `Removed bet on '${displayLabel}'`;
         } else {
-            // Add the bet (toggle on)
             activeBets.push({ 
                 amount: amount, 
                 choice: choice, 
@@ -204,7 +191,6 @@
             const stake = bet.amount;
             const choiceRaw = bet.choice.toLowerCase();
             
-            // French roulette rule: la partage -> even-money bets lose only half when 0 appears
             const evenMoneySet = new Set(['red','black','even','odd','low','high']);
             if (resultNumber === 0 && evenMoneySet.has(choiceRaw)) {
                 const returned = stake / 2;
@@ -217,7 +203,6 @@
             let win = false;
             let profitMultiplier = 0;
 
-            // numeric straight bet
             if (/^\d+$/.test(choiceRaw)) {
                 const n = parseInt(choiceRaw, 10);
                 if (n === resultNumber) { win = true; profitMultiplier = 35; }
@@ -268,7 +253,6 @@
             betMessage.textContent = `Result: ${resultNumber}. Break even`;
         }
         
-        // Keep the bets active (don't clear them)
         updatePointsDisplay();
         updateActiveBetsList();
     }
@@ -295,9 +279,7 @@
     });
     
     if (document.readyState === 'loading') {
-        // DOM not ready yet
     } else {
-        // DOM is ready
         applyColors();
     }
     
@@ -309,19 +291,15 @@
             div.classList.add('roulette-box');
 
 
-            // handle click to toggle bet
             div.addEventListener('click', function() {
-                // Check if betting is disabled
                 if (isSpinning || this.classList.contains('disabled')) {
                     betMessage.textContent = 'Cannot change bets while spinning';
                     return;
                 }
                 
-                // build a candidate list from classList, ignoring helper classes
                 const rawClasses = Array.from(this.classList || []);
                 const filtered = rawClasses.filter(c => c !== 'roulette-box' && c !== 'selected' && c !== 'disabled');
 
-                // find a canonical class: prefer numeric slot, then known keys
                 let canonical = '';
                 for (const c of filtered) { if (/^\d+$/.test(c)) { canonical = c; break; } }
                 if (!canonical) {
@@ -330,7 +308,6 @@
                 }
                 if (!canonical) canonical = filtered[0] || '';
 
-                // map to friendly label and internal key
                 function friendlyLabelFromClass(c) {
                     if (!c) return '';
                     if (/^\d+$/.test(c)) return c;
@@ -353,7 +330,6 @@
                 const displayLabel = friendlyLabelFromClass(canonical) || (this.textContent || '').trim();
                 const choice = internalChoiceFromClass(canonical);
 
-                // Toggle the bet
                 toggleBet(choice, displayLabel, this);
             });
         });

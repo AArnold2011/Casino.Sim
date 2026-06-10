@@ -1,336 +1,298 @@
+/* ═══════════════════════════════════════════════════
+   CASINO SIMULATOR — Unified Design System
+   Palette: deep felt green + aged gold + near-black
+   ═══════════════════════════════════════════════════ */
+
 @font-face {
   font-family: 'LEMONMILK';
   src: url('../fonts/LEMONMILK-BoldItalic.otf') format('opentype');
   font-weight: 700;
   font-style: italic;
 }
-html{
-  --text: #f5f4ff;
-  --background: #010104;
-  --primary: #353535;
-  --secondary: #ec751f;
-  --accent: #120A8F;
-}
-body{
-    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
-    color: var(--text);
-    background: var(--background);
-}
-.primarycontent{
-    background-color: var(--secondary);
-    border: 2px solid var(--text);
-    border-radius: 5px;
 
+/* ── Tokens ──────────────────────────────────────── */
+:root {
+  --bg:          #07100a;        /* near-black with green tint */
+  --bg-surface:  #0d1e12;        /* cards / panels */
+  --bg-raised:   #132218;        /* slightly elevated surfaces */
+  --felt:        #1a5c2a;        /* poker table green */
+  --felt-light:  #237335;
+  --gold:        #c9a84c;
+  --gold-light:  #e8cc7a;
+  --gold-dim:    rgba(201,168,76,0.35);
+  --text:        #f0ead8;        /* warm cream — not pure white */
+  --text-dim:    rgba(240,234,216,0.55);
+  --text-muted:  rgba(240,234,216,0.30);
+  --border:      rgba(201,168,76,0.22);
+  --border-dim:  rgba(255,255,255,0.08);
+  --rail:        #5c3317;
+  --rail-dark:   #3d2010;
+  --red:         #c0392b;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   22px;
+  --radius-pill: 999px;
 }
-.secondarycontent{
-    background-color: var(--accent);
-    border: 2px solid var(--text);
-    border-radius: 5px;
+
+/* ── Reset ───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ────────────────────────────────────────── */
+html { height: 100%; }
+
+body {
+  font-family: 'LEMONMILK', 'Inter', Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
 }
 
-
-
-a:link {
+/* Remove old white game-page override — all pages share the dark theme */
+/* (game-page class kept for backward compat but no longer inverts colors) */
+.game-page {
+  background: var(--bg);
   color: var(--text);
 }
 
-a:visited {
-  color: var(--text);
-}
+/* ── Links ───────────────────────────────────────── */
+a         { color: var(--gold-light); text-decoration: none; }
+a:visited { color: var(--gold); }
+a:hover   { color: var(--gold-light); text-decoration: underline; }
+a:active  { color: var(--text); }
 
-a:hover {
-  color: var(--accent);
-}
-
-a:active {
-  color: var(--secondary);
-}
-
+/* ── Header ──────────────────────────────────────── */
 .casino-header {
-    padding: 24px 20px 16px;
-    text-align: center;
+  padding: 24px 20px 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 100%);
 }
 
 .casino-header h1 {
-    margin: 0 0 8px;
-    font-size: 2rem;
-    letter-spacing: 1px;
+  margin: 0 0 10px;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .points-bar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 16px;
-    border: 2px solid var(--text);
-    border-radius: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: rgba(0,0,0,0.45);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
 }
 
+/* ── Main content area ───────────────────────────── */
 .casino-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 20px;
 }
 
+/* ── Cards / panels ──────────────────────────────── */
 .game-card {
-    max-width: 680px;
-    padding: 24px;
-    border: 2px solid var(--text);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    text-align: center;
+  width: min(680px, 100%);
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  text-align: center;
+  line-height: 1.65;
+  color: var(--text-dim);
 }
 
+.game-card h2 {
+  color: var(--gold-light);
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Navigation menu ─────────────────────────────── */
 .game-menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
 }
 
 .game-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 140px;
-    padding: 14px 18px;
-    border: 2px solid var(--text);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 700;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: rgba(201,168,76,0.06);
+  color: var(--gold-light);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
 }
 
 .game-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-    background-color: rgba(255, 255, 255, 0.12);
+  background: rgba(201,168,76,0.14);
+  border-color: var(--gold-dim);
+  color: var(--gold-light);
+  text-decoration: none;
+  transform: translateY(-1px);
 }
 
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-    width: 100%;
-    max-width: 1080px;
-}
-
-.game-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: #111;
-    width: 100%;
-    max-width: 280px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 22px;
-    padding: 14px;
-}
-
-.game-tile img {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    background-color: rgba(255, 255, 255, 0.04);
-    object-fit: cover;
-}
-
-.game-tile span {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #111;
-}
-
-.game-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: #111;
-    width: 100%;
-    max-width: 280px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 22px;
-    padding: 14px;
-}
-
-.game-tile img {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    background-color: rgba(255, 255, 255, 0.04);
-    object-fit: cover;
-}
-
-.game-tile span {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #111;
-}
-
-.title-screen {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle at top, rgba(255, 238, 150, 0.15), transparent 35%),
-                linear-gradient(180deg, #080707 0%, #040407 100%);
-    z-index: 9999;
-}
-
-.title-content {
-    text-align: center;
-    padding: 2rem 2.5rem;
-}
-
-.title-text {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.casino-text {
-    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
-    font-size: 6rem;
-    line-height: 0.9;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffd56d, #ffed9e, #f9d35c, #f6c737, #ffd46f);
-    -webkit-background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 18px rgba(255, 220, 130, 0.85);
-}
-
-.simulator-text {
-    font-family: 'LEMONMILK', Inter, Arial, sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #f9d671;
-    text-shadow: 0 0 14px rgba(255, 223, 140, 0.65);
-}
-
-.prompt-text {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    color: #f8e7b6;
-    opacity: 0.95;
-    animation: pulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes pulse {
-    from { opacity: 0.7; }
-    to { opacity: 1; }
-}
-
-.game-page {
-    background: #ffffff;
-    color: #111111;
-}
-
-.game-page a {
-    color: #111111;
-}
-
-.game-page .casino-header {
-    color: #111111;
-}
-
-.game-page .points-bar {
-    border-color: rgba(0, 0, 0, 0.16);
-    background: rgba(0, 0, 0, 0.04);
-    color: #111111;
-}
-
-.game-page .game-card {
-    background: #f7f7f7;
-    border-color: rgba(0, 0, 0, 0.12);
-}
-
-.game-page .game-link {
-    border-color: rgba(0, 0, 0, 0.12);
-    background: rgba(0, 0, 0, 0.04);
-    color: #111111;
-}
-
-.game-page .game-link:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-}
-
+/* ── Return home badge ───────────────────────────── */
 .return-home-badge {
-    position: fixed;
-    bottom: 18px;
-    left: 18px;
-    width: 84px;
-    height: 84px;
-    border-radius: 22px;
-    overflow: hidden;
-    border: 2px solid rgba(0, 0, 0, 0.16);
-    background: #ffffff;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-    z-index: 1000;
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.18s, transform 0.18s;
+}
+
+.return-home-badge:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+  text-decoration: none;
 }
 
 .return-home-badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+  /* invert white arrow for dark bg */
+  filter: invert(1) brightness(1.2);
 }
 
-.title-screen {
-    position: fixed;
-    inset: 0;
-    background: rgba(1, 1, 4, 0.98);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: 24px;
-    transition: opacity 0.6s ease;
+/* ── Index: title screen ─────────────────────────── */
+.title-screen,
+#titleScreen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 30%, #1a0808 0%, #040204 100%);
+  z-index: 9000;
+  transition: opacity 0.8s ease;
 }
 
-.title-screen.hidden {
-    opacity: 0;
-    pointer-events: none;
+#titleScreen.hidden,
+.title-screen.hidden { opacity: 0; pointer-events: none; }
+
+/* ── Index: game grid ────────────────────────────── */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1080px;
 }
 
-.title-content {
-    text-align: center;
-    color: var(--text);
+.game-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
-.title-text {
-    font-size: clamp(3rem, 8vw, 6rem);
-    letter-spacing: 0.35rem;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    animation: float 4.5s ease-in-out infinite;
+.game-tile:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  text-decoration: none;
 }
 
-.prompt-text {
-    font-size: 1rem;
-    letter-spacing: 0.12rem;
-    opacity: 0.9;
+.game-tile img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.game-tile span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+}
+
+/* ── Placeholder page styles (Baccarat / Slots) ──── */
+.placeholder-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 32px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.placeholder-badge {
+  font-size: 5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 18px rgba(201,168,76,0.35));
+}
+
+.placeholder-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-light);
+}
+
+.placeholder-body {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+@keyframes pulse {
+  from { opacity: 0.65; }
+  to   { opacity: 1; }
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(-6px); }
-    50% { transform: translateY(6px); }
+  0%, 100% { transform: translateY(-5px); }
+  50%       { transform: translateY(5px); }
+}
+
+@media (max-width: 600px) {
+  .casino-header h1 { font-size: 1.5rem; }
+  .game-menu { gap: 8px; padding: 10px 14px; }
+  .game-link { min-width: 100px; font-size: 0.76rem; padding: 8px 14px; }
+  .return-home-badge { width: 46px; height: 46px; bottom: 12px; left: 12px; }
 }

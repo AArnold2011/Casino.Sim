@@ -4,44 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Texas Hold'em Poker - Casino Simulator</title>
+    <link rel="icon" href="roulettefavicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="Styling/style.css">
     <link rel="stylesheet" href="Styling/TexasHoldem.css">
 </head>
-<body class="game-page">
+<body>
     <a class="return-home-badge" href="index.html" aria-label="Return to home">
         <img src="images/blue-curved-return-arrow.png" alt="Return to home">
     </a>
-    <nav class="game-menu">
-        <a class="game-link" href="Roulette.html">Roulette</a>
-        <a class="game-link" href="Baccarat.html">Baccarat</a>
-        <a class="game-link" href="Slots.html">Slots</a>
-        <a class="game-link" href="TexasHoldem.html">Texas Hold'em</a>
-    </nav>
-    <div class="game-container">
-        <h1>Texas Hold'em Poker</h1>
+    <header class="casino-header">
+        <h1>Texas Hold'em</h1>
+        <div class="points-bar">Points: <span id="pointsValue">0</span></div>
+    </header>
 
-        <!-- Game Info Panel -->
+    <div class="game-container">
         <div class="info-panel">
             <div class="info-item">
-                <span class="label">Pot:</span>
-                <span id="potAmount" class="value">0</span>
+                <span class="label">Pot</span>
+                <span id="potAmountInfo" class="value">0</span>
             </div>
             <div class="info-item">
-                <span class="label">Current Bet:</span>
+                <span class="label">Current Bet</span>
                 <span id="currentBet" class="value">0</span>
             </div>
             <div class="info-item">
-                <span class="label">Your Chips:</span>
-                <span id="playerChips" class="value">1000</span>
+                <span class="label">Your Chips</span>
+                <span id="playerChipsInfo" class="value">1000</span>
             </div>
             <div class="info-item">
-                <span class="label">Game Status:</span>
-                <span id="gameStatus" class="value">Waiting for game to start...</span>
+                <span class="label">Status</span>
+                <span id="gameStatus" class="value">Waiting…</span>
             </div>
         </div>
 
         <div class="poker-table">
-            <!-- Dealer Position (Top) -->
             <div class="position dealer-position">
                 <div class="player-name">Dealer</div>
                 <div class="deck-display">
@@ -51,7 +47,6 @@
                 <div class="dealer-button">D</div>
             </div>
 
-            <!-- Bot Positions - Right Side (3 bots) -->
             <div class="position bot-position bot-position-1">
                 <div class="player-name" id="botName1">Bot 1</div>
                 <div class="player-cards" id="botCards1">
@@ -60,9 +55,7 @@
                 </div>
                 <div class="bot-action" id="botAction1"></div>
                 <div class="blind-indicator" id="botBlind1"></div>
-                <div class="chip-stack" id="botChipStack1">
-                    <div class="chips-amount" id="botChips1">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack1"><div class="chips-amount" id="botChips1">500</div></div>
             </div>
 
             <div class="position bot-position bot-position-2">
@@ -73,9 +66,7 @@
                 </div>
                 <div class="bot-action" id="botAction2"></div>
                 <div class="blind-indicator" id="botBlind2"></div>
-                <div class="chip-stack" id="botChipStack2">
-                    <div class="chips-amount" id="botChips2">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack2"><div class="chips-amount" id="botChips2">500</div></div>
             </div>
 
             <div class="position bot-position bot-position-3">
@@ -86,12 +77,9 @@
                 </div>
                 <div class="bot-action" id="botAction3"></div>
                 <div class="blind-indicator" id="botBlind3"></div>
-                <div class="chip-stack" id="botChipStack3">
-                    <div class="chips-amount" id="botChips3">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack3"><div class="chips-amount" id="botChips3">500</div></div>
             </div>
 
-            <!-- Bot Positions - Left Side (3 bots) -->
             <div class="position bot-position bot-position-4">
                 <div class="player-name" id="botName4">Bot 4</div>
                 <div class="player-cards" id="botCards4">
@@ -100,9 +88,7 @@
                 </div>
                 <div class="bot-action" id="botAction4"></div>
                 <div class="blind-indicator" id="botBlind4"></div>
-                <div class="chip-stack" id="botChipStack4">
-                    <div class="chips-amount" id="botChips4">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack4"><div class="chips-amount" id="botChips4">500</div></div>
             </div>
 
             <div class="position bot-position bot-position-5">
@@ -113,9 +99,7 @@
                 </div>
                 <div class="bot-action" id="botAction5"></div>
                 <div class="blind-indicator" id="botBlind5"></div>
-                <div class="chip-stack" id="botChipStack5">
-                    <div class="chips-amount" id="botChips5">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack5"><div class="chips-amount" id="botChips5">500</div></div>
             </div>
 
             <div class="position bot-position bot-position-6">
@@ -126,12 +110,9 @@
                 </div>
                 <div class="bot-action" id="botAction6"></div>
                 <div class="blind-indicator" id="botBlind6"></div>
-                <div class="chip-stack" id="botChipStack6">
-                    <div class="chips-amount" id="botChips6">500</div>
-                </div>
+                <div class="chip-stack" id="botChipStack6"><div class="chips-amount" id="botChips6">500</div></div>
             </div>
 
-            <!-- Community Cards (Center) -->
             <div class="community-cards">
                 <div class="community-card-label">Community Cards</div>
                 <div class="cards-row">
@@ -143,17 +124,15 @@
                 </div>
             </div>
 
-            <!-- Pot Display (Center, below community cards) -->
             <div class="pot-display">
                 <div class="pot-label">POT</div>
                 <div class="pot-chips">
-                    <div class="chip-stack-large" id="potChipStack">
-                        <div class="pot-amount" id="potAmount">0</div>
+                    <div class="chip-stack-large">
+                        <div class="pot-amount" id="potAmountChip">0</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Player Position (Bottom) -->
             <div class="position player-position">
                 <div class="player-name">You</div>
                 <div class="player-cards" id="playerCards">
@@ -167,20 +146,17 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="button-panel">
-            <button class="action-button bet-btn" id="betBtn">BET</button>
-            <button class="action-button check-btn" id="checkBtn">CHECK</button>
-            <button class="action-button fold-btn" id="foldBtn">FOLD</button>
+            <button class="action-button bet-btn"   id="betBtn"   disabled>BET</button>
+            <button class="action-button check-btn" id="checkBtn" disabled>CHECK</button>
+            <button class="action-button fold-btn"  id="foldBtn"  disabled>FOLD</button>
         </div>
 
-        <!-- Game Control Buttons -->
         <div class="game-control-buttons">
             <button class="control-btn" id="startGameBtn">Start New Game</button>
             <button class="control-btn" id="resetGameBtn">Reset Game</button>
         </div>
 
-        <!-- Bet Input Modal -->
         <div class="modal" id="betModal">
             <div class="modal-content">
                 <h2>Enter Bet Amount</h2>
@@ -192,7 +168,6 @@
             </div>
         </div>
 
-        <!-- Game Message -->
         <div id="gameMessage" class="game-message"></div>
     </div>
 

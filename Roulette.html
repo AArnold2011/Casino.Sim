@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
+    <title>Roulette - Casino Simulator</title>
     <link rel="icon" href="roulettefavicon.ico" type="image/x-icon"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
         <img src="images/blue-curved-return-arrow.png" alt="Return to home">
     </a>
     <div id="rouletteContainer">
-        <!-- Left: Spinner and Controls -->
         <div id="spinnerSection">
             <div class="spinner" id="spinner">
                 <img src="images/363802D7-E46A-4E5E-9B11-C96A1D1F40E1_4_5005_c-removebg-preview.png" alt="roulette wheel">
@@ -32,14 +31,11 @@
             <div style="margin-top: 8px;">Total Bet: <span id="totalBet">0</span></div>
         </div>
 
-        <!-- Right: Board with Numbers and Special Boxes -->
         <div id="boardSection">
-            <!-- Row 0: Zero -->
             <div id="zeroRow">
                 <div class="0">0</div>
             </div>
 
-            <!-- Row 1: Numbers 1-12 -->
             <div class="numberRow">
                 <div class="1">1</div>
                 <div class="2">2</div>
@@ -54,8 +50,7 @@
                 <div class="11">11</div>
                 <div class="12">12</div>
             </div>
-
-            <!-- Row 2: Numbers 13-24 -->
+            
             <div class="numberRow">
                 <div class="13">13</div>
                 <div class="14">14</div>
@@ -110,9 +105,9 @@
 
             <!-- Column Bets -->
             <div class="specialRow">
-                <div class="columnone">Column 1</div>
-                <div class="columntwo">Column 2</div>
-                <div class="columnthree">Column 3</div>
+                <div class="columnone">Row 1</div>
+                <div class="columntwo">Row 2</div>
+                <div class="columnthree">Row 3</div>
             </div>
         </div>
     </div>

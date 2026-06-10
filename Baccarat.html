@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baccarat - Casino Simulator</title>
     <link rel="icon" href="roulettefavicon.ico" type="image/x-icon"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Styling/style.css">
+    <link rel="stylesheet" href="Styling/Baccarat.css">
 </head>
-<body class="game-page">
+<body class="baccarat-page">
     <a class="return-home-badge" href="index.html" aria-label="Return to home">
         <img src="images/blue-curved-return-arrow.png" alt="Return to home">
     </a>
@@ -15,20 +19,91 @@
         <h1>Baccarat</h1>
         <div class="points-bar">Points: <span id="pointsValue">0</span></div>
     </header>
-    <main class="casino-main">
-        <section class="game-card">
-            <h2>Baccarat lobby</h2>
-            <p>This page is a placeholder for Baccarat. Points are preserved across every casino game.</p>
-            <p>Click a game to continue playing.</p>
-        </section>
+    <main class="casino-main baccarat-layout">
         <nav class="game-menu">
             <a class="game-link" href="Roulette.html">Roulette</a>
             <a class="game-link" href="Blackjack.html">Blackjack</a>
             <a class="game-link" href="Slots.html">Slots</a>
             <a class="game-link" href="TexasHoldem.html">Texas Hold'em</a>
         </nav>
+
+        <section class="baccarat-table-wrap" aria-label="Baccarat table">
+            <div class="baccarat-table">
+                <div class="baccarat-zone">
+                    <div class="zone-title">Player</div>
+                    <div id="playerCards" class="bac-cards-row"></div>
+                    <div id="playerScore" class="zone-score player-score">-</div>
+                    <div id="playerNatural" class="bac-natural-badge"></div>
+                </div>
+
+                <div class="baccarat-zone-divider"></div>
+
+                <div class="baccarat-zone" style="flex: 0 0 auto; min-width: 80px; justify-content: center;">
+                    <div class="zone-title" style="opacity:0;">vs</div>
+                    <div class="tie-center" style="font-size:0.78rem; font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:rgba(245,244,255,0.32); text-align:center; padding-top: 48px;">VS</div>
+                </div>
+
+                <div class="baccarat-zone-divider"></div>
+
+                <div class="baccarat-zone">
+                    <div class="zone-title">Banker</div>
+                    <div id="bankerCards" class="bac-cards-row"></div>
+                    <div id="bankerScore" class="zone-score banker-score">-</div>
+                    <div id="bankerNatural" class="bac-natural-badge"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="baccarat-controls game-card">
+            <div class="baccarat-bet-row">
+                <div class="control-stack">
+                    <label for="betAmount">Bet amount</label>
+                    <input id="betAmount" type="number" min="1" step="1" value="25">
+                </div>
+                <div class="bet-target-group">
+                    <label>Bet on</label>
+                    <div class="bet-target-buttons">
+                        <button id="betTargetPlayer" class="bet-target-btn">Player</button>
+                        <button id="betTargetBanker" class="bet-target-btn">Banker</button>
+                        <button id="betTargetTie"    class="bet-target-btn">Tie</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button id="dealBtn"     class="action-button primary">Deal</button>
+                <button id="newRoundBtn" class="action-button" disabled>New Round</button>
+            </div>
+
+            <div class="status-row">
+                <div>Current bet: <span id="currentBetValue">0</span> on <span id="betTargetValue">—</span></div>
+                <div>Banker pays 0.95 · Tie pays 8:1</div>
+            </div>
+            <p id="statusMessage" class="status-message">Choose a side and deal.</p>
+        </section>
+
+        <div class="baccarat-scoreboard" aria-label="Session statistics">
+            <div class="score-tile">
+                <div class="score-tile-label">Player wins</div>
+                <div id="statPlayer" class="score-tile-value player">0</div>
+            </div>
+            <div class="score-tile">
+                <div class="score-tile-label">Banker wins</div>
+                <div id="statBanker" class="score-tile-value banker">0</div>
+            </div>
+            <div class="score-tile">
+                <div class="score-tile-label">Ties</div>
+                <div id="statTie" class="score-tile-value tie">0</div>
+            </div>
+            <div class="score-tile">
+                <div class="score-tile-label">Rounds</div>
+                <div id="statRounds" class="score-tile-value rounds">0</div>
+            </div>
+        </div>
     </main>
+
     <script src="js/PointsManager.js"></script>
     <script>initializeSharedPoints();</script>
+    <script src="js/BaccaratEngine.js"></script>
 </body>
 </html>
