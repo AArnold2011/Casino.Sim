@@ -82,7 +82,6 @@
             50%       { opacity: 0.9; }
         }
 
-        /* ── Casino Floor Body ──────────────────────────── */
         body {
             font-family: 'Inter', sans-serif;
             background: var(--carpet-deep);
@@ -91,7 +90,6 @@
             overflow-x: hidden;
         }
 
-        /* Carpet SVG tile background */
         body::before {
             content: '';
             position: fixed; inset: 0; z-index: 0;
@@ -168,21 +166,37 @@
         .casino-floor {
             position: relative; z-index: 10;
             width: 100%;
-            min-height: calc(100vh - 140px);
             padding: 40px 20px 80px;
         }
 
-        /* ── Table Container — scattered layout ─────────── */
+        /* ── Grid layout ─────────────────────────────────── */
         .tables-scene {
-            position: relative;
-            max-width: 1300px;
+            max-width: 1100px;
             margin: 0 auto;
-            height: 720px;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
         }
 
-        /* ── Individual Game Table ───────────────────────── */
+        /* Top row: 3 tables */
+        .tables-row-top {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: end; /* align bottoms so names line up */
+        }
+
+        /* Bottom row: 2 tables, centered */
+        .tables-row-bottom {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            width: calc(66.666% + 9px); /* match 2-of-3 col width */
+            margin: 0 auto;
+        }
+
+        /* ── Individual Game Table link ──────────────────── */
         .game-table {
-            position: absolute;
             cursor: pointer;
             text-decoration: none;
             display: flex;
@@ -196,7 +210,24 @@
         .game-table:hover {
             transform: translateY(-8px) scale(1.04);
             filter: brightness(1.15);
-            z-index: 50 !important;
+        }
+
+        /* Shared felt base styles */
+        .table-felt {
+            position: relative;
+            width: 100%;
+            background: radial-gradient(ellipse at 40% 35%, var(--felt-light), var(--felt-green) 60%, #0f3a1a);
+            border: 8px solid var(--rail-wood);
+            box-shadow:
+                0 0 0 2px var(--rail-dark),
+                0 8px 24px rgba(0,0,0,0.7),
+                inset 0 2px 8px rgba(255,255,255,0.07),
+                inset 0 -4px 12px rgba(0,0,0,0.4);
+            transition: box-shadow 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .game-table:hover .table-felt {
@@ -207,50 +238,72 @@
                 inset 0 0 20px rgba(35,115,53,0.3);
         }
 
-        /* Table felt top (the visible playing surface) */
-        .table-felt {
-            border-radius: 50%;
-            background: radial-gradient(ellipse at 40% 35%, var(--felt-light), var(--felt-green) 60%, #0f3a1a);
-            border: 8px solid var(--rail-wood);
-            box-shadow:
-                0 0 0 2px var(--rail-dark),
-                0 8px 24px rgba(0,0,0,0.7),
-                inset 0 2px 8px rgba(255,255,255,0.07),
-                inset 0 -4px 12px rgba(0,0,0,0.4);
-            position: relative;
-            transition: box-shadow 0.25s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
         /* Rail highlight */
         .table-felt::before {
             content: '';
             position: absolute; inset: -8px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);
             pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);
         }
 
-        /* Table label on the felt */
+        /* ── ROULETTE: wide oval, 5:3 ratio ──────────────── */
+        .table-roulette .table-felt {
+            aspect-ratio: 5 / 3;
+            border-radius: 999px; /* full pill/oval */
+        }
+        .table-roulette .table-felt::before { border-radius: 999px; }
+
+        /* ── BLACKJACK: D-shape (flat bottom, rounded top) ─ */
+        .table-blackjack .table-felt {
+            aspect-ratio: 2 / 1;
+            border-radius: 999px 999px 0 0;
+        }
+        .table-blackjack .table-felt::before { border-radius: 999px 999px 0 0; }
+
+        /* ── TEXAS HOLD'EM: wider oval ───────────────────── */
+        .table-texas .table-felt {
+            aspect-ratio: 16 / 9;
+            border-radius: 999px;
+        }
+        .table-texas .table-felt::before { border-radius: 999px; }
+
+        /* ── BACCARAT: rounded rectangle ─────────────────── */
+        .table-baccarat .table-felt {
+            aspect-ratio: 2 / 1;
+            border-radius: 60px;
+        }
+        .table-baccarat .table-felt::before { border-radius: 60px; }
+
+        /* ── SLOTS: square-ish dark machine ──────────────── */
+        .table-slots .table-felt {
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            background: radial-gradient(ellipse at 40% 35%, #2d2d2d, #111 60%);
+            border-color: #2a2a2a;
+        }
+        .table-slots .table-felt::before {
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, transparent 45%);
+        }
+
         .table-felt-label {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 700;
             font-style: italic;
+            font-size: clamp(0.85rem, 1.8vw, 1.3rem);
             color: rgba(255,255,255,0.18);
             letter-spacing: 0.08em;
             text-align: center;
             line-height: 1.2;
             pointer-events: none;
             user-select: none;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Table name below */
         .table-name {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 1.4vw, 1rem);
             font-weight: 700;
             color: var(--gold-light);
             letter-spacing: 0.1em;
@@ -266,12 +319,12 @@
             text-transform: uppercase;
         }
 
-        /* Chips decoration on tables */
         .table-chips {
             position: absolute;
             bottom: 14px;
             display: flex;
             gap: 5px;
+            z-index: 1;
         }
 
         .mini-chip {
@@ -281,118 +334,21 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
 
-        /* ── Table Sizes and Positions ───────────────────── */
-
-        /* Roulette — large oval table, left center */
-        .table-roulette {
-            left: 4%;
-            top: 55px;
-            z-index: 4;
-        }
-        .table-roulette .table-felt {
-            width: 260px; height: 160px;
-            border-radius: 80px / 50%;
-        }
-        .table-roulette .table-felt-label { font-size: 1.3rem; }
-
-        /* Blackjack — classic D-shape, top center */
-        .table-blackjack {
-            left: 33%;
-            top: 20px;
-            z-index: 3;
-        }
-        .table-blackjack .table-felt {
-            width: 240px; height: 140px;
-            border-radius: 120px 120px 0 0;
-        }
-        .table-blackjack .table-felt-label { font-size: 1.2rem; }
-
-        /* Texas Hold'em — large oval, right */
-        .table-texas {
-            right: 3%;
-            top: 40px;
-            z-index: 4;
-        }
-        .table-texas .table-felt {
-            width: 280px; height: 160px;
-            border-radius: 80px / 50%;
-        }
-        .table-texas .table-felt-label { font-size: 1rem; }
-
-        /* Baccarat — rectangular, bottom left */
-        .table-baccarat {
-            left: 18%;
-            bottom: 40px;
-            z-index: 5;
-        }
-        .table-baccarat .table-felt {
-            width: 220px; height: 120px;
-            border-radius: 60px;
-        }
-        .table-baccarat .table-felt-label { font-size: 1.2rem; }
-
-        /* Slots — cluster of small machines, bottom right */
-        .table-slots {
-            right: 10%;
-            bottom: 30px;
-            z-index: 5;
-        }
-        .table-slots .table-felt {
-            width: 190px; height: 190px;
-            border-radius: 16px;
-            background: radial-gradient(ellipse at 40% 35%, #2d2d2d, #111 60%);
-            border-color: #2a2a2a;
-        }
-        .table-slots .table-felt-label { font-size: 1rem; color: rgba(255,215,0,0.3); }
-
-        /* ── Floor decorations ───────────────────────────── */
-        .floor-pillar {
-            position: absolute;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .pillar-inner {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #d4aa60, #8a6a28 50%, #5c4418);
-            border: 3px solid #c9a84c;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.6), 0 0 12px rgba(201,168,76,0.25);
-        }
-
-        /* Pillar positions */
-        .pillar-1 { left: 27%; top: 15px; }
-        .pillar-2 { right: 26%; top: 15px; }
-        .pillar-3 { left: 27%; bottom: 15px; }
-        .pillar-4 { right: 26%; bottom: 15px; }
-
-        /* Ambient floor light halos */
-        .floor-light {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* ── Responsive fallback: grid on small screens ── */
-        @media (max-width: 900px) {
-            .tables-scene {
-                height: auto;
-                display: grid;
+        /* ── Responsive ──────────────────────────────────── */
+        @media (max-width: 760px) {
+            .tables-row-top,
+            .tables-row-bottom {
                 grid-template-columns: 1fr 1fr;
-                gap: 36px;
-                padding: 20px;
+                width: 100%;
             }
-            .game-table {
-                position: static !important;
-                align-items: center;
-            }
-            .floor-pillar { display: none; }
         }
 
         @media (max-width: 520px) {
-            .tables-scene { grid-template-columns: 1fr; }
+            .tables-row-top,
+            .tables-row-bottom {
+                grid-template-columns: 1fr;
+                width: 100%;
+            }
             .floor-header { padding: 14px 20px; }
             .header-logo { font-size: 1.2rem; }
         }
@@ -429,133 +385,129 @@
     <section class="casino-floor">
         <div class="tables-scene">
 
-            <!-- Floor ambient lights -->
-            <div class="floor-light" style="width:500px;height:500px;left:-100px;top:-50px;"></div>
-            <div class="floor-light" style="width:400px;height:400px;right:-80px;bottom:0;"></div>
+            <!-- Top row: Roulette · Blackjack · Texas Hold'em -->
+            <div class="tables-row-top">
 
-            <!-- Pillars -->
-            <div class="floor-pillar pillar-1"><div class="pillar-inner"></div></div>
-            <div class="floor-pillar pillar-2"><div class="pillar-inner"></div></div>
-            <div class="floor-pillar pillar-3"><div class="pillar-inner"></div></div>
-            <div class="floor-pillar pillar-4"><div class="pillar-inner"></div></div>
-
-            <!-- ── ROULETTE TABLE ── -->
-            <a class="game-table table-roulette" href="Roulette.html">
-                <div class="table-felt">
-                    <div class="table-felt-label">Roulette</div>
-                    <!-- Roulette wheel hint -->
-                    <svg style="position:absolute;bottom:10px;right:20px;opacity:0.22;" width="48" height="48" viewBox="0 0 48 48" fill="none">
-                        <circle cx="24" cy="24" r="22" stroke="white" stroke-width="2"/>
-                        <circle cx="24" cy="24" r="10" stroke="white" stroke-width="1.5"/>
-                        <circle cx="24" cy="24" r="3" fill="white" opacity="0.6"/>
-                        <line x1="24" y1="2" x2="24" y2="14" stroke="white" stroke-width="1.5"/>
-                        <line x1="24" y1="34" x2="24" y2="46" stroke="white" stroke-width="1.5"/>
-                        <line x1="2" y1="24" x2="14" y2="24" stroke="white" stroke-width="1.5"/>
-                        <line x1="34" y1="24" x2="46" y2="24" stroke="white" stroke-width="1.5"/>
-                        <line x1="7" y1="7" x2="15.5" y2="15.5" stroke="white" stroke-width="1.2"/>
-                        <line x1="32.5" y1="32.5" x2="41" y2="41" stroke="white" stroke-width="1.2"/>
-                        <line x1="41" y1="7" x2="32.5" y2="15.5" stroke="white" stroke-width="1.2"/>
-                        <line x1="15.5" y1="32.5" x2="7" y2="41" stroke="white" stroke-width="1.2"/>
-                    </svg>
-                    <div class="table-chips">
-                        <div class="mini-chip" style="background:#c0392b;"></div>
-                        <div class="mini-chip" style="background:#2c3e50;"></div>
-                        <div class="mini-chip" style="background:#018a18;"></div>
-                        <div class="mini-chip" style="background:#c0392b;"></div>
+                <!-- ROULETTE — wide oval -->
+                <a class="game-table table-roulette" href="Roulette.html">
+                    <div class="table-felt">
+                        <div class="table-felt-label">Roulette</div>
+                        <svg style="position:absolute;bottom:10px;right:20px;opacity:0.22;z-index:1;" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="24" cy="24" r="22" stroke="white" stroke-width="2"/>
+                            <circle cx="24" cy="24" r="10" stroke="white" stroke-width="1.5"/>
+                            <circle cx="24" cy="24" r="3" fill="white" opacity="0.6"/>
+                            <line x1="24" y1="2" x2="24" y2="14" stroke="white" stroke-width="1.5"/>
+                            <line x1="24" y1="34" x2="24" y2="46" stroke="white" stroke-width="1.5"/>
+                            <line x1="2" y1="24" x2="14" y2="24" stroke="white" stroke-width="1.5"/>
+                            <line x1="34" y1="24" x2="46" y2="24" stroke="white" stroke-width="1.5"/>
+                            <line x1="7" y1="7" x2="15.5" y2="15.5" stroke="white" stroke-width="1.2"/>
+                            <line x1="32.5" y1="32.5" x2="41" y2="41" stroke="white" stroke-width="1.2"/>
+                            <line x1="41" y1="7" x2="32.5" y2="15.5" stroke="white" stroke-width="1.2"/>
+                            <line x1="15.5" y1="32.5" x2="7" y2="41" stroke="white" stroke-width="1.2"/>
+                        </svg>
+                        <div class="table-chips">
+                            <div class="mini-chip" style="background:#c0392b;"></div>
+                            <div class="mini-chip" style="background:#2c3e50;"></div>
+                            <div class="mini-chip" style="background:#018a18;"></div>
+                            <div class="mini-chip" style="background:#c0392b;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="table-name">Roulette</div>
-                <div class="table-min-bet">Min bet: 1 pt</div>
-            </a>
+                    <div class="table-name">Roulette</div>
+                    <div class="table-min-bet">Min bet: 1 pt</div>
+                </a>
 
-            <!-- ── BLACKJACK TABLE ── -->
-            <a class="game-table table-blackjack" href="Blackjack.html">
-                <div class="table-felt">
-                    <div class="table-felt-label">Blackjack</div>
-                    <!-- Card hints -->
-                    <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(-60%) rotate(-8deg);opacity:0.22;" width="28" height="40" viewBox="0 0 28 40">
-                        <rect width="28" height="40" rx="3" fill="white"/>
-                        <text x="4" y="14" font-size="10" fill="#c0392b" font-family="serif" font-weight="bold">A</text>
-                        <text x="8" y="27" font-size="14" fill="#c0392b" font-family="serif">♥</text>
-                    </svg>
-                    <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(10%) rotate(6deg);opacity:0.22;" width="28" height="40" viewBox="0 0 28 40">
-                        <rect width="28" height="40" rx="3" fill="white"/>
-                        <text x="4" y="14" font-size="10" fill="#111" font-family="serif" font-weight="bold">K</text>
-                        <text x="8" y="27" font-size="14" fill="#111" font-family="serif">♠</text>
-                    </svg>
-                    <div class="table-chips">
-                        <div class="mini-chip" style="background:#0066ff;"></div>
-                        <div class="mini-chip" style="background:#00cc00;"></div>
-                        <div class="mini-chip" style="background:#c0392b;"></div>
+                <!-- BLACKJACK — D-shape, no notch -->
+                <a class="game-table table-blackjack" href="Blackjack.html">
+                    <div class="table-felt">
+                        <div class="table-felt-label">Blackjack</div>
+                        <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(-60%) rotate(-8deg);opacity:0.22;z-index:1;" width="28" height="40" viewBox="0 0 28 40">
+                            <rect width="28" height="40" rx="3" fill="white"/>
+                            <text x="4" y="14" font-size="10" fill="#c0392b" font-family="serif" font-weight="bold">A</text>
+                            <text x="8" y="27" font-size="14" fill="#c0392b" font-family="serif">♥</text>
+                        </svg>
+                        <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(10%) rotate(6deg);opacity:0.22;z-index:1;" width="28" height="40" viewBox="0 0 28 40">
+                            <rect width="28" height="40" rx="3" fill="white"/>
+                            <text x="4" y="14" font-size="10" fill="#111" font-family="serif" font-weight="bold">K</text>
+                            <text x="8" y="27" font-size="14" fill="#111" font-family="serif">♠</text>
+                        </svg>
+                        <div class="table-chips">
+                            <div class="mini-chip" style="background:#0066ff;"></div>
+                            <div class="mini-chip" style="background:#00cc00;"></div>
+                            <div class="mini-chip" style="background:#c0392b;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="table-name">Blackjack</div>
-                <div class="table-min-bet">Min bet: 1 pt</div>
-            </a>
+                    <div class="table-name">Blackjack</div>
+                    <div class="table-min-bet">Min bet: 1 pt</div>
+                </a>
 
-            <!-- ── TEXAS HOLD'EM TABLE ── -->
-            <a class="game-table table-texas" href="TexasHoldem.html">
-                <div class="table-felt">
-                    <div class="table-felt-label">Texas<br>Hold'em</div>
-                    <!-- Community card hints -->
-                    <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);opacity:0.2;" width="120" height="32" viewBox="0 0 120 32">
-                        <rect x="0"   y="0" width="20" height="30" rx="2" fill="white"/>
-                        <rect x="25"  y="0" width="20" height="30" rx="2" fill="white"/>
-                        <rect x="50"  y="0" width="20" height="30" rx="2" fill="white"/>
-                        <rect x="75"  y="0" width="20" height="30" rx="2" fill="white" opacity="0.5"/>
-                        <rect x="100" y="0" width="20" height="30" rx="2" fill="white" opacity="0.3"/>
-                    </svg>
-                    <div class="table-chips">
-                        <div class="mini-chip" style="background:#9900ff;"></div>
-                        <div class="mini-chip" style="background:#ff8800;"></div>
-                        <div class="mini-chip" style="background:#1a1a1a;"></div>
-                        <div class="mini-chip" style="background:#00cc00;"></div>
-                        <div class="mini-chip" style="background:#c0392b;"></div>
+                <!-- TEXAS HOLD'EM — wider oval -->
+                <a class="game-table table-texas" href="TexasHoldem.html">
+                    <div class="table-felt">
+                        <div class="table-felt-label">Texas<br>Hold'em</div>
+                        <svg style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);opacity:0.2;z-index:1;" width="120" height="32" viewBox="0 0 120 32">
+                            <rect x="0"   y="0" width="20" height="30" rx="2" fill="white"/>
+                            <rect x="25"  y="0" width="20" height="30" rx="2" fill="white"/>
+                            <rect x="50"  y="0" width="20" height="30" rx="2" fill="white"/>
+                            <rect x="75"  y="0" width="20" height="30" rx="2" fill="white" opacity="0.5"/>
+                            <rect x="100" y="0" width="20" height="30" rx="2" fill="white" opacity="0.3"/>
+                        </svg>
+                        <div class="table-chips">
+                            <div class="mini-chip" style="background:#9900ff;"></div>
+                            <div class="mini-chip" style="background:#ff8800;"></div>
+                            <div class="mini-chip" style="background:#1a1a1a;"></div>
+                            <div class="mini-chip" style="background:#00cc00;"></div>
+                            <div class="mini-chip" style="background:#c0392b;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="table-name">Texas Hold'em</div>
-                <div class="table-min-bet">Min bet: 1 pt</div>
-            </a>
+                    <div class="table-name">Texas Hold'em</div>
+                    <div class="table-min-bet">Min bet: 1 pt</div>
+                </a>
 
-            <!-- ── BACCARAT TABLE ── -->
-            <a class="game-table table-baccarat" href="Baccarat.html">
-                <div class="table-felt">
-                    <div class="table-felt-label">Baccarat</div>
-                    <div class="table-chips">
-                        <div class="mini-chip" style="background:#ffff00;"></div>
-                        <div class="mini-chip" style="background:#ff0099;"></div>
-                        <div class="mini-chip" style="background:#664400;"></div>
+            </div><!-- /tables-row-top -->
+
+            <!-- Bottom row: Baccarat · Slots -->
+            <div class="tables-row-bottom">
+
+                <!-- BACCARAT — rounded rect -->
+                <a class="game-table table-baccarat" href="Baccarat.html">
+                    <div class="table-felt">
+                        <div class="table-felt-label">Baccarat</div>
+                        <div class="table-chips">
+                            <div class="mini-chip" style="background:#ffff00;"></div>
+                            <div class="mini-chip" style="background:#ff0099;"></div>
+                            <div class="mini-chip" style="background:#664400;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="table-name">Baccarat</div>
-                <div class="table-min-bet">Min bet: 1 pt</div>
-            </a>
+                    <div class="table-name">Baccarat</div>
+                    <div class="table-min-bet">Min bet: 1 pt</div>
+                </a>
 
-            <!-- ── SLOTS ── -->
-            <a class="game-table table-slots" href="Slots.html">
-                <div class="table-felt">
-                    <div class="table-felt-label">Slots</div>
-                    <!-- Slot reels hint -->
-                    <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);opacity:0.3;" width="100" height="52" viewBox="0 0 100 52">
-                        <rect x="5"  y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
-                        <rect x="37" y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
-                        <rect x="69" y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
-                        <text x="10"  y="31" font-size="18" fill="#ffcc00">7</text>
-                        <text x="42"  y="31" font-size="18" fill="#ffcc00">7</text>
-                        <text x="74"  y="31" font-size="18" fill="#ffcc00">7</text>
-                        <line x1="5" y1="26" x2="95" y2="26" stroke="#ff3333" stroke-width="1.5" opacity="0.8"/>
-                    </svg>
-                    <div class="table-chips" style="bottom:10px;">
-                        <div class="mini-chip" style="background:#ffff00;"></div>
-                        <div class="mini-chip" style="background:#ffff00;"></div>
-                        <div class="mini-chip" style="background:#ffff00;"></div>
+                <!-- SLOTS — square dark machine -->
+                <a class="game-table table-slots" href="Slots.html">
+                    <div class="table-felt">
+                        <div class="table-felt-label">Slots</div>
+                        <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);opacity:0.3;z-index:1;" width="100" height="52" viewBox="0 0 100 52">
+                            <rect x="5"  y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
+                            <rect x="37" y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
+                            <rect x="69" y="4" width="25" height="44" rx="3" fill="none" stroke="#ffcc00" stroke-width="2"/>
+                            <text x="10"  y="31" font-size="18" fill="#ffcc00">7</text>
+                            <text x="42"  y="31" font-size="18" fill="#ffcc00">7</text>
+                            <text x="74"  y="31" font-size="18" fill="#ffcc00">7</text>
+                            <line x1="5" y1="26" x2="95" y2="26" stroke="#ff3333" stroke-width="1.5" opacity="0.8"/>
+                        </svg>
+                        <div class="table-chips" style="bottom:10px;">
+                            <div class="mini-chip" style="background:#ffff00;"></div>
+                            <div class="mini-chip" style="background:#ffff00;"></div>
+                            <div class="mini-chip" style="background:#ffff00;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="table-name">Slots</div>
-                <div class="table-min-bet">Min bet: 1 pt</div>
-            </a>
+                    <div class="table-name">Slots</div>
+                    <div class="table-min-bet">Min bet: 1 pt</div>
+                </a>
 
-        </div>
+            </div><!-- /tables-row-bottom -->
+
+        </div><!-- /tables-scene -->
     </section>
 
     <script src="js/PointsManager.js"></script>
