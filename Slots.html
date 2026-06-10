@@ -5,25 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slots - Casino Simulator</title>
     <link rel="icon" href="roulettefavicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="Styling/Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Styling/style.css">
+    <link rel="stylesheet" href="Styling/Slots.css">
 </head>
-<body class="game-page">
+<body class="slots-page">
     <a class="return-home-badge" href="index.html" aria-label="Return to home">
         <img src="images/blue-curved-return-arrow.png" alt="Return to home">
     </a>
+
     <header class="casino-header">
         <h1>Slots</h1>
         <div class="points-bar">Points: <span id="pointsValue">0</span></div>
     </header>
-    <main class="casino-main">
-        <section class="game-card">
-            <h2>Slot machine</h2>
-            <p>This page is a placeholder for Slots. Your current balance travels with you across the casino.</p>
-            <p>Visit Roulette, Blackjack, Baccarat, or Texas Hold'em from the menu.</p>
-        </section>
-        
+
+    <main class="slots-layout">
+        <div class="slot-machine">
+
+            <!-- Marquee topper -->
+            <div class="machine-topper">
+                <div class="marquee-lights"></div>
+                <div class="topper-sign">Lucky Sevens</div>
+                <div class="marquee-lights bottom"></div>
+            </div>
+
+            <!-- Paytable strip -->
+            <div class="machine-paytable">
+                <div class="pay-row"><span class="pay-combo sym-seven">7&nbsp;7&nbsp;7</span><span class="pay-amount">120x</span></div>
+                <div class="pay-row"><span class="pay-combo sym-bar">BAR BAR BAR</span><span class="pay-amount">40x</span></div>
+                <div class="pay-row"><span class="pay-combo">🔔🔔🔔</span><span class="pay-amount">18x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍇🍇🍇</span><span class="pay-amount">12x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍒🍒🍒</span><span class="pay-amount">10x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍊🍊🍊</span><span class="pay-amount">8x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍋🍋🍋</span><span class="pay-amount">6x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍒🍒 any</span><span class="pay-amount">5x</span></div>
+                <div class="pay-row"><span class="pay-combo">🍒 any</span><span class="pay-amount">2x</span></div>
+            </div>
+
+            <!-- Reel window + lever -->
+            <div class="machine-body">
+                <div class="reel-window" id="reelWindow">
+                    <div class="reel"><div class="reel-strip" id="reelStrip0"></div></div>
+                    <div class="reel"><div class="reel-strip" id="reelStrip1"></div></div>
+                    <div class="reel"><div class="reel-strip" id="reelStrip2"></div></div>
+                    <div class="payline"><span class="payline-marker left"></span><span class="payline-marker right"></span></div>
+                    <div class="window-glare"></div>
+                </div>
+
+                <div class="lever" id="lever" role="button" tabindex="0" aria-label="Pull lever to spin">
+                    <div class="lever-slot"></div>
+                    <div class="lever-arm">
+                        <div class="lever-stick"></div>
+                        <div class="lever-knob"></div>
+                    </div>
+                    <div class="lever-base"></div>
+                </div>
+            </div>
+
+            <!-- Control panel beneath the game board -->
+            <div class="control-panel">
+                <div class="panel-readouts">
+                    <div class="readout">
+                        <span class="readout-label">Credits</span>
+                        <span class="readout-value" id="creditsValue">0</span>
+                    </div>
+                    <div class="readout">
+                        <span class="readout-label">Bet</span>
+                        <span class="readout-value" id="betReadout">25</span>
+                    </div>
+                    <div class="readout">
+                        <span class="readout-label">Win</span>
+                        <span class="readout-value" id="lastWinValue">0</span>
+                    </div>
+                </div>
+                <div class="panel-message" id="slotMessage">Place your bet and spin</div>
+                <div class="panel-buttons">
+                    <button id="betBtn" class="panel-button bet-button">Bet <span id="betValue">25</span></button>
+                    <button id="spinBtn" class="panel-button spin-button">Spin</button>
+                </div>
+            </div>
+
+            <!-- Coin tray -->
+            <div class="coin-tray"><div class="coin-tray-well"></div></div>
+        </div>
+
+        <!-- Bet selector popup -->
+        <div class="bet-popup hidden" id="betPopup">
+            <div class="bet-popup-card" role="dialog" aria-modal="true" aria-label="Select bet amount">
+                <div class="bet-popup-title">Select Bet</div>
+                <div class="bet-popup-controls">
+                    <button id="betDownBtn" class="bet-arrow" aria-label="Lower bet">&#9660;</button>
+                    <span class="bet-popup-value" id="betPopupValue">25</span>
+                    <button id="betUpBtn" class="bet-arrow" aria-label="Raise bet">&#9650;</button>
+                </div>
+                <button id="betConfirmBtn" class="panel-button bet-button">Set Bet</button>
+            </div>
+        </div>
     </main>
+
     <script src="js/PointsManager.js"></script>
     <script>initializeSharedPoints();</script>
+    <script src="js/SlotsEngine.js"></script>
 </body>
 </html>
