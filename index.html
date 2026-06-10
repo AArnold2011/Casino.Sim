@@ -7,356 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --carpet-deep:    #4a0a0a;
-            --carpet-mid:     #6b1212;
-            --carpet-pattern: #5c0f0f;
-            --gold:           #c9a84c;
-            --gold-light:     #e8cc7a;
-            --felt-green:     #1a5c2a;
-            --felt-light:     #237335;
-            --rail-wood:      #5c3317;
-            --rail-dark:      #3d2010;
-            --text-cream:     #f5ead8;
-            --text-dim:       #a89070;
-            --chip-red:       #c0392b;
-        }
-
-        #titleScreen {
-            position: fixed; inset: 0; z-index: 9000;
-            background: radial-gradient(ellipse at 50% 30%, #1a0808 0%, #080204 100%);
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease;
-        }
-        #titleScreen.hidden { opacity: 0; pointer-events: none; }
-
-        .title-inner { text-align: center; user-select: none; }
-
-        .title-casino {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #8a6a1e 0%, #c9a84c 35%, #f0dc96 55%, #c9a84c 75%, #8a6a1e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 24px rgba(201,168,76,0.5));
-            animation: shimmer 4s ease-in-out infinite alternate;
-        }
-        @keyframes shimmer {
-            from { filter: drop-shadow(0 0 16px rgba(201,168,76,0.4)); }
-            to   { filter: drop-shadow(0 0 36px rgba(201,168,76,0.85)); }
-        }
-
-        .title-sim {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(0.9rem, 2.5vw, 1.4rem);
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            margin-top: 0.4em;
-        }
-
-        .title-divider {
-            width: 200px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 1.8rem auto;
-        }
-
-        .title-prompt {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--gold);
-            opacity: 0.7;
-            animation: blink 2.2s ease-in-out infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 0.4; }
-            50%       { opacity: 0.9; }
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--carpet-deep);
-            color: var(--text-cream);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed; inset: 0; z-index: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%234a0a0a'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%235c0f0f' stroke-width='1.5'/%3E%3Cpath d='M40 15 L65 40 L40 65 L15 40 Z' fill='none' stroke='%236b1212' stroke-width='1'/%3E%3Ccircle cx='40' cy='40' r='4' fill='%235c0f0f'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%235c0f0f'/%3E%3Ccircle cx='80' cy='0' r='3' fill='%235c0f0f'/%3E%3Ccircle cx='0' cy='80' r='3' fill='%235c0f0f'/%3E%3Ccircle cx='80' cy='80' r='3' fill='%235c0f0f'/%3E%3Cpath d='M40 0 L40 15 M40 65 L40 80 M0 40 L15 40 M65 40 L80 40' stroke='%235c0f0f' stroke-width='1'/%3E%3C/svg%3E");
-            opacity: 0.9;
-            pointer-events: none;
-        }
-
-        /* ── Header ─────────────────────────────────────── */
-        .floor-header {
-            position: relative; z-index: 10;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 40px 16px;
-            border-bottom: 1px solid rgba(201,168,76,0.25);
-            background: linear-gradient(180deg, rgba(30,4,4,0.95) 0%, transparent 100%);
-        }
-
-        .header-logo {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            background: linear-gradient(135deg, #c9a84c, #f0dc96, #c9a84c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-points {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 20px;
-            border: 1px solid rgba(201,168,76,0.4);
-            border-radius: 40px;
-            background: rgba(0,0,0,0.4);
-            font-size: 0.9rem;
-            color: var(--gold-light);
-            font-weight: 600;
-            letter-spacing: 0.05em;
-        }
-
-        .chip-icon {
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #e84545, var(--chip-red));
-            border: 2px solid rgba(255,255,255,0.3);
-            flex-shrink: 0;
-        }
-
-        /* ── Floor Label ─────────────────────────────────── */
-        .floor-label {
-            position: relative; z-index: 10;
-            text-align: center;
-            padding: 28px 20px 0;
-        }
-
-        .floor-label h2 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(0.8rem, 1.5vw, 1rem);
-            font-weight: 400;
-            font-style: italic;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--gold);
-            opacity: 0.75;
-        }
-
-        .floor-divider {
-            width: 120px; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 10px auto 0;
-        }
-
-        /* ── Casino Floor ────────────────────────────────── */
-        .casino-floor {
-            position: relative; z-index: 10;
-            width: 100%;
-            padding: 40px 20px 80px;
-        }
-
-        /* ── Grid layout ─────────────────────────────────── */
-        .tables-scene {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 36px;
-        }
-
-        /* Top row: 3 tables */
-        .tables-row-top {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-            align-items: end; /* align bottoms so names line up */
-        }
-
-        /* Bottom row: 2 tables, centered */
-        .tables-row-bottom {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-            width: calc(66.666% + 9px); /* match 2-of-3 col width */
-            margin: 0 auto;
-        }
-
-        /* ── Individual Game Table link ──────────────────── */
-        .game-table {
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.25s ease, filter 0.25s ease;
-            transform-origin: center bottom;
-        }
-
-        .game-table:hover {
-            transform: translateY(-8px) scale(1.04);
-            filter: brightness(1.15);
-        }
-
-        /* Shared felt base styles */
-        .table-felt {
-            position: relative;
-            width: 100%;
-            background: radial-gradient(ellipse at 40% 35%, var(--felt-light), var(--felt-green) 60%, #0f3a1a);
-            border: 8px solid var(--rail-wood);
-            box-shadow:
-                0 0 0 2px var(--rail-dark),
-                0 8px 24px rgba(0,0,0,0.7),
-                inset 0 2px 8px rgba(255,255,255,0.07),
-                inset 0 -4px 12px rgba(0,0,0,0.4);
-            transition: box-shadow 0.25s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .game-table:hover .table-felt {
-            box-shadow:
-                0 0 0 3px var(--gold),
-                0 0 40px rgba(201,168,76,0.4),
-                0 8px 32px rgba(0,0,0,0.6),
-                inset 0 0 20px rgba(35,115,53,0.3);
-        }
-
-        /* Rail highlight */
-        .table-felt::before {
-            content: '';
-            position: absolute; inset: -8px;
-            pointer-events: none;
-            background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);
-        }
-
-        /* ── ROULETTE: wide oval, 5:3 ratio ──────────────── */
-        .table-roulette .table-felt {
-            aspect-ratio: 5 / 3;
-            border-radius: 999px; /* full pill/oval */
-        }
-        .table-roulette .table-felt::before { border-radius: 999px; }
-
-        /* ── BLACKJACK: D-shape (flat bottom, rounded top) ─ */
-        .table-blackjack .table-felt {
-            aspect-ratio: 2 / 1;
-            border-radius: 999px 999px 0 0;
-        }
-        .table-blackjack .table-felt::before { border-radius: 999px 999px 0 0; }
-
-        /* ── TEXAS HOLD'EM: wider oval ───────────────────── */
-        .table-texas .table-felt {
-            aspect-ratio: 16 / 9;
-            border-radius: 999px;
-        }
-        .table-texas .table-felt::before { border-radius: 999px; }
-
-        /* ── BACCARAT: rounded rectangle ─────────────────── */
-        .table-baccarat .table-felt {
-            aspect-ratio: 2 / 1;
-            border-radius: 60px;
-        }
-        .table-baccarat .table-felt::before { border-radius: 60px; }
-
-        /* ── SLOTS: square-ish dark machine ──────────────── */
-        .table-slots .table-felt {
-            aspect-ratio: 1 / 1;
-            border-radius: 16px;
-            background: radial-gradient(ellipse at 40% 35%, #2d2d2d, #111 60%);
-            border-color: #2a2a2a;
-        }
-        .table-slots .table-felt::before {
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, transparent 45%);
-        }
-
-        .table-felt-label {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: 700;
-            font-style: italic;
-            font-size: clamp(0.85rem, 1.8vw, 1.3rem);
-            color: rgba(255,255,255,0.18);
-            letter-spacing: 0.08em;
-            text-align: center;
-            line-height: 1.2;
-            pointer-events: none;
-            user-select: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .table-name {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(0.8rem, 1.4vw, 1rem);
-            font-weight: 700;
-            color: var(--gold-light);
-            letter-spacing: 0.1em;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            text-align: center;
-        }
-
-        .table-min-bet {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .table-chips {
-            position: absolute;
-            bottom: 14px;
-            display: flex;
-            gap: 5px;
-            z-index: 1;
-        }
-
-        .mini-chip {
-            width: 14px; height: 14px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.35);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.5);
-        }
-
-        /* ── Responsive ──────────────────────────────────── */
-        @media (max-width: 760px) {
-            .tables-row-top,
-            .tables-row-bottom {
-                grid-template-columns: 1fr 1fr;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .tables-row-top,
-            .tables-row-bottom {
-                grid-template-columns: 1fr;
-                width: 100%;
-            }
-            .floor-header { padding: 14px 20px; }
-            .header-logo { font-size: 1.2rem; }
-        }
-    </style>
+    <link rel="stylesheet" href="Styling/index.css">
 </head>
 <body>
 
-    <!-- Title Screen -->
     <div id="titleScreen">
         <div class="title-inner">
             <div class="title-casino">Casino</div>
@@ -366,7 +20,6 @@
         </div>
     </div>
 
-    <!-- Header -->
     <header class="floor-header">
         <div class="header-logo">Casino Simulator</div>
         <div class="header-points">
@@ -375,20 +28,11 @@
         </div>
     </header>
 
-    <!-- Floor label -->
-    <div class="floor-label">
-        <h2>The Casino Floor</h2>
-        <div class="floor-divider"></div>
-    </div>
-
-    <!-- Casino Floor -->
     <section class="casino-floor">
         <div class="tables-scene">
 
-            <!-- Top row: Roulette · Blackjack · Texas Hold'em -->
             <div class="tables-row-top">
 
-                <!-- ROULETTE — wide oval -->
                 <a class="game-table table-roulette" href="Roulette.html">
                     <div class="table-felt">
                         <div class="table-felt-label">Roulette</div>
@@ -416,7 +60,6 @@
                     <div class="table-min-bet">Min bet: 1 pt</div>
                 </a>
 
-                <!-- BLACKJACK — D-shape, no notch -->
                 <a class="game-table table-blackjack" href="Blackjack.html">
                     <div class="table-felt">
                         <div class="table-felt-label">Blackjack</div>
@@ -440,7 +83,6 @@
                     <div class="table-min-bet">Min bet: 1 pt</div>
                 </a>
 
-                <!-- TEXAS HOLD'EM — wider oval -->
                 <a class="game-table table-texas" href="TexasHoldem.html">
                     <div class="table-felt">
                         <div class="table-felt-label">Texas<br>Hold'em</div>
@@ -463,12 +105,11 @@
                     <div class="table-min-bet">Min bet: 1 pt</div>
                 </a>
 
-            </div><!-- /tables-row-top -->
+            </div>
 
-            <!-- Bottom row: Baccarat · Slots -->
+
             <div class="tables-row-bottom">
 
-                <!-- BACCARAT — rounded rect -->
                 <a class="game-table table-baccarat" href="Baccarat.html">
                     <div class="table-felt">
                         <div class="table-felt-label">Baccarat</div>
@@ -482,7 +123,6 @@
                     <div class="table-min-bet">Min bet: 1 pt</div>
                 </a>
 
-                <!-- SLOTS — square dark machine -->
                 <a class="game-table table-slots" href="Slots.html">
                     <div class="table-felt">
                         <div class="table-felt-label">Slots</div>
@@ -504,10 +144,8 @@
                     <div class="table-name">Slots</div>
                     <div class="table-min-bet">Min bet: 1 pt</div>
                 </a>
-
-            </div><!-- /tables-row-bottom -->
-
-        </div><!-- /tables-scene -->
+            </div>
+        </div>
     </section>
 
     <script src="js/PointsManager.js"></script>
