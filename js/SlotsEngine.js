@@ -63,7 +63,7 @@
 
     const reels = [];
     for (let i = 0; i < REEL_COUNT; i++) {
-        reels.push({ offset: i * 5, from: 0, target: 0, duration: 0, done: true });
+        reels.push({ offset: 0, from: 0, target: 0, duration: 0, done: true });
     }
 
     function buildReels() {
