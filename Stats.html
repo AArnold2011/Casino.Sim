@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats &amp; Achievements — Casino Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --carpet-deep: #4a0a0a;
+            --gold:        #c9a84c;
+            --gold-light:  #e8cc7a;
+            --text-cream:  #f5ead8;
+            --text-dim:    #a89070;
+            --pos:         #6fcf7f;
+            --neg:         #e08a8a;
+            --panel:       rgba(0,0,0,0.34);
+            --panel-border:rgba(201,168,76,0.28);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--carpet-deep);
+            color: var(--text-cream);
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%234a0a0a'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%235c0f0f' stroke-width='1.5'/%3E%3Ccircle cx='40' cy='40' r='4' fill='%235c0f0f'/%3E%3C/svg%3E");
+            opacity: 0.9; pointer-events: none;
+        }
+
+        .floor-header {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 40px 16px;
+            border-bottom: 1px solid rgba(201,168,76,0.25);
+            background: linear-gradient(180deg, rgba(30,4,4,0.95) 0%, transparent 100%);
+        }
+        .header-logo {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.6rem; font-weight: 700; letter-spacing: 0.15em;
+            background: linear-gradient(135deg, #c9a84c, #f0dc96, #c9a84c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 18px; border: 1px solid rgba(201,168,76,0.4); border-radius: 40px;
+            background: rgba(0,0,0,0.4); color: var(--gold-light);
+            text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .back-link:hover { border-color: var(--gold); box-shadow: 0 0 14px rgba(201,168,76,0.3); }
+
+        .wrap {
+            position: relative; z-index: 5;
+            max-width: 1000px; margin: 0 auto; padding: 36px 24px 80px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.2rem; font-weight: 700; letter-spacing: 0.06em;
+            color: var(--gold-light); margin-bottom: 6px;
+        }
+        .page-sub { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 30px; }
+
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem; color: var(--gold); letter-spacing: 0.05em;
+            margin: 36px 0 16px; padding-bottom: 8px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        /* Totals banner */
+        .totals {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px; margin-bottom: 8px;
+        }
+        .stat-card {
+            background: var(--panel); border: 1px solid var(--panel-border);
+            border-radius: 12px; padding: 18px 20px;
+        }
+        .stat-card .label {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.16em;
+            color: var(--text-dim); margin-bottom: 8px;
+        }
+        .stat-card .value { font-size: 1.7rem; font-weight: 600; color: var(--gold-light); }
+        .value.pos { color: var(--pos); }
+        .value.neg { color: var(--neg); }
+
+        /* Leaderboard table */
+        .table-scroll { overflow-x: auto; }
+        table.leaderboard {
+            width: 100%; border-collapse: collapse; min-width: 640px;
+            background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px;
+            overflow: hidden;
+        }
+        .leaderboard th, .leaderboard td { padding: 13px 16px; text-align: right; font-size: 0.9rem; }
+        .leaderboard th:first-child, .leaderboard td:first-child { text-align: left; }
+        .leaderboard thead th {
+            font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--gold); background: rgba(0,0,0,0.3); font-weight: 600;
+        }
+        .leaderboard tbody tr { border-top: 1px solid rgba(201,168,76,0.12); }
+        .leaderboard tbody tr:hover { background: rgba(201,168,76,0.06); }
+        .leaderboard .game-name { color: var(--gold-light); font-weight: 600; }
+        .leaderboard td.pos { color: var(--pos); }
+        .leaderboard td.neg { color: var(--neg); }
+        .leaderboard tfoot td {
+            border-top: 2px solid var(--panel-border); font-weight: 600; color: var(--gold-light);
+        }
+        .muted-row td { color: var(--text-dim); }
+
+        /* Achievements grid */
+        .ach-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+        }
+        .ach-card {
+            display: flex; align-items: center; gap: 14px;
+            background: var(--panel); border: 1px solid var(--panel-border);
+            border-radius: 12px; padding: 16px;
+        }
+        .ach-card.locked { opacity: 0.45; filter: grayscale(0.7); }
+        .ach-card .ic { font-size: 2rem; line-height: 1; }
+        .ach-card .meta .name { font-weight: 600; color: var(--gold-light); font-size: 0.96rem; }
+        .ach-card .meta .desc { font-size: 0.78rem; color: var(--text-dim); margin-top: 3px; }
+        .ach-progress { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 14px; }
+
+        .reset-row { margin-top: 40px; }
+        .reset-btn {
+            background: transparent; border: 1px solid rgba(224,138,138,0.5);
+            color: var(--neg); padding: 9px 18px; border-radius: 40px;
+            font-family: 'Inter', sans-serif; font-size: 0.82rem; cursor: pointer;
+            letter-spacing: 0.05em; transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .reset-btn:hover { background: rgba(224,138,138,0.12); border-color: var(--neg); }
+
+        .empty-note {
+            background: var(--panel); border: 1px dashed var(--panel-border);
+            border-radius: 12px; padding: 28px; text-align: center; color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <header class="floor-header">
+        <div class="header-logo">Casino Simulator</div>
+        <a class="back-link" href="index.html">← Back to Floor</a>
+    </header>
+
+    <div class="wrap">
+        <div class="page-title">Stats &amp; Achievements</div>
+        <div class="page-sub" id="pageSub">Your lifetime record across the casino floor.</div>
+
+        <div class="totals" id="totalsBanner"></div>
+
+        <div class="section-title">Per-Game Leaderboard</div>
+        <div class="table-scroll">
+            <table class="leaderboard">
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Rounds</th>
+                        <th>Earned</th>
+                        <th>Lost</th>
+                        <th>Net</th>
+                        <th>Best Win</th>
+                        <th>Best Streak</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody"></tbody>
+                <tfoot id="leaderboardFoot"></tfoot>
+            </table>
+        </div>
+
+        <div class="section-title">Personal Bests</div>
+        <div class="totals" id="bestsBanner"></div>
+
+        <div class="section-title">Achievements</div>
+        <div class="ach-progress" id="achProgress"></div>
+        <div class="ach-grid" id="achGrid"></div>
+
+        <div class="reset-row">
+            <button class="reset-btn" id="resetBtn">Reset all stats &amp; achievements</button>
+        </div>
+    </div>
+
+    <script src="js/PointsManager.js"></script>
+    <script src="js/StatsManager.js"></script>
+    <script src="js/AchievementsManager.js"></script>
+    <script>
+        (function () {
+            function fmt(n) {
+                n = Math.round(Number(n) || 0);
+                return n.toLocaleString('en-US');
+            }
+            function signed(n) {
+                n = Math.round(Number(n) || 0);
+                return (n >= 0 ? '+' : '') + n.toLocaleString('en-US');
+            }
+            function netClass(n) { return n > 0 ? 'pos' : (n < 0 ? 'neg' : ''); }
+
+            var stats  = StatsManager.getStats();
+            var totals = StatsManager.computeTotals(stats);
+            var labels = StatsManager.GAME_LABELS;
+            var games  = StatsManager.GAMES;
+
+            // ---- Totals banner ----
+            var banner = document.getElementById('totalsBanner');
+            var cards = [
+                { label: 'Lifetime Net', value: signed(totals.net), cls: netClass(totals.net) },
+                { label: 'Total Earned', value: fmt(totals.earned), cls: 'pos' },
+                { label: 'Total Lost',   value: fmt(totals.lost),   cls: 'neg' },
+                { label: 'Rounds Played',value: fmt(totals.rounds), cls: '' },
+                { label: 'Total Wagered',value: fmt(totals.wagered),cls: '' }
+            ];
+            banner.innerHTML = cards.map(function (c) {
+                return '<div class="stat-card"><div class="label">' + c.label +
+                       '</div><div class="value ' + c.cls + '">' + c.value + '</div></div>';
+            }).join('');
+
+            // ---- Leaderboard ----
+            var body = document.getElementById('leaderboardBody');
+            var rows = '';
+            games.forEach(function (key) {
+                var g = stats.games[key];
+                var net = g.returned - g.wagered;
+                var played = g.rounds > 0;
+                rows += '<tr' + (played ? '' : ' class="muted-row"') + '>' +
+                    '<td class="game-name">' + labels[key] + '</td>' +
+                    '<td>' + fmt(g.rounds) + '</td>' +
+                    '<td class="pos">' + (g.earned ? fmt(g.earned) : '—') + '</td>' +
+                    '<td class="neg">' + (g.lost ? fmt(g.lost) : '—') + '</td>' +
+                    '<td class="' + netClass(net) + '">' + (played ? signed(net) : '—') + '</td>' +
+                    '<td>' + (g.biggestWin ? fmt(g.biggestWin) : '—') + '</td>' +
+                    '<td>' + (g.bestStreak ? fmt(g.bestStreak) : '—') + '</td>' +
+                    '</tr>';
+            });
+            body.innerHTML = rows;
+
+            document.getElementById('leaderboardFoot').innerHTML =
+                '<tr><td>Total</td><td>' + fmt(totals.rounds) + '</td>' +
+                '<td class="pos">' + fmt(totals.earned) + '</td>' +
+                '<td class="neg">' + fmt(totals.lost) + '</td>' +
+                '<td class="' + netClass(totals.net) + '">' + signed(totals.net) + '</td>' +
+                '<td>—</td><td>—</td></tr>';
+
+            // ---- Personal bests ----
+            var bestWinGame = null, bestWin = 0, bestStreakGame = null, bestStreak = 0, worstLoss = 0, worstLossGame = null;
+            games.forEach(function (key) {
+                var g = stats.games[key];
+                if (g.biggestWin > bestWin) { bestWin = g.biggestWin; bestWinGame = labels[key]; }
+                if (g.bestStreak > bestStreak) { bestStreak = g.bestStreak; bestStreakGame = labels[key]; }
+                if (g.biggestLoss > worstLoss) { worstLoss = g.biggestLoss; worstLossGame = labels[key]; }
+            });
+            var bests = [
+                { label: 'Biggest Single Win', value: bestWin ? fmt(bestWin) : '—', sub: bestWinGame || '', cls: 'pos' },
+                { label: 'Longest Win Streak', value: bestStreak ? fmt(bestStreak) : '—', sub: bestStreakGame || '', cls: '' },
+                { label: 'Biggest Single Loss', value: worstLoss ? fmt(worstLoss) : '—', sub: worstLossGame || '', cls: 'neg' },
+                { label: 'Current Balance', value: (typeof getPlayerPoints === 'function' ? fmt(getPlayerPoints()) : '—'), sub: '', cls: '' }
+            ];
+            document.getElementById('bestsBanner').innerHTML = bests.map(function (b) {
+                var sub = b.sub ? '<div class="label" style="margin-top:8px;margin-bottom:0;">' + b.sub + '</div>' : '';
+                return '<div class="stat-card"><div class="label">' + b.label +
+                       '</div><div class="value ' + b.cls + '">' + b.value + '</div>' + sub + '</div>';
+            }).join('');
+
+            // ---- Achievements ----
+            var achs = AchievementsManager.getAchievements();
+            var unlockedCount = achs.filter(function (a) { return a.unlocked; }).length;
+            document.getElementById('achProgress').textContent =
+                unlockedCount + ' of ' + achs.length + ' unlocked';
+            document.getElementById('achGrid').innerHTML = achs.map(function (a) {
+                return '<div class="ach-card ' + (a.unlocked ? 'unlocked' : 'locked') + '">' +
+                    '<div class="ic">' + (a.unlocked ? a.icon : '🔒') + '</div>' +
+                    '<div class="meta"><div class="name">' + a.name + '</div>' +
+                    '<div class="desc">' + a.desc + '</div></div></div>';
+            }).join('');
+
+            if (totals.rounds === 0) {
+                document.getElementById('pageSub').textContent =
+                    'No rounds played yet — head to the floor and place a bet to start tracking.';
+            }
+
+            // ---- Reset ----
+            document.getElementById('resetBtn').addEventListener('click', function () {
+                if (!window.confirm('Reset all stats and achievements? This cannot be undone.')) return;
+                StatsManager.resetStats();
+                AchievementsManager.resetAchievements();
+                window.location.reload();
+            });
+        })();
+    </script>
+</body>
+</html>

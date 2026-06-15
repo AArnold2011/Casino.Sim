@@ -244,6 +244,9 @@ class BaccaratEngine {
         }
 
         this.points += winnings;
+        if (this.bet > 0 && typeof recordRound === 'function') {
+            recordRound('baccarat', { wagered: this.bet, returned: winnings });
+        }
         this.syncPoints();
         this.setStatus(msg);
         this.state = 'roundOver';

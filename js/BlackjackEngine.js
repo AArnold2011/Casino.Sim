@@ -280,21 +280,32 @@ class BlackjackEngine {
             this.roundTimeout = null;
         }
 
+        const wagered = this.bet;
+        let returned = 0;
+
         if (result === 'blackjack') {
-            this.points += Math.floor(this.bet * 2.5);
+            returned = Math.floor(this.bet * 2.5);
+            this.points += returned;
             this.setStatus('Blackjack pays 3:2. You win.');
         } else if (result === 'dealer-bust' || result === 'win') {
-            this.points += this.bet * 2;
+            returned = this.bet * 2;
+            this.points += returned;
             this.setStatus(result === 'dealer-bust' ? 'Dealer busts. You win.' : 'You win.');
         } else if (result === 'push') {
-            this.points += this.bet;
+            returned = this.bet;
+            this.points += returned;
             this.setStatus(customMessage || 'Push. Your bet is returned.');
         } else if (result === 'dealer-blackjack' || result === 'lose' || result === 'bust') {
+            returned = 0;
             this.setStatus(
                 result === 'dealer-blackjack' ? 'Dealer has blackjack. You lose.' :
                 result === 'bust' ? 'You busted. Dealer wins.' :
                 'Dealer wins.'
             );
+        }
+
+        if (wagered > 0 && typeof recordRound === 'function') {
+            recordRound('blackjack', { wagered: wagered, returned: returned });
         }
 
         this.bet = 0;

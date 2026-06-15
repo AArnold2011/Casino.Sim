@@ -241,6 +241,9 @@
         }
 
         updatePointsDisplay();
+        if (typeof recordRound === 'function') {
+            recordRound('slots', { wagered: bet, returned: payout });
+        }
         isSpinning = false;
         setControlsEnabled(true);
     }

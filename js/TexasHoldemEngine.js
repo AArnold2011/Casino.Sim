@@ -154,7 +154,8 @@ class TexasHoldemGame {
         this.smallBlindIndex = 0;
         this.bigBlindIndex  = 1;
         this.gameRound      = 0;
-        this._actionLock    = false;  
+        this._actionLock    = false;
+        this._handStartChips = null;
 
         this.initializePlayers();
         this.setupEventListeners();
@@ -314,6 +315,7 @@ class TexasHoldemGame {
         if (this.gameActive) return;
         this._actionLock    = false;
         this.gameActive     = true;
+        this._handStartChips = this.playerObj.chips;
         this.communityCards = [];
         this.pot            = 0;
         this.currentBet     = 0;
@@ -596,6 +598,19 @@ class TexasHoldemGame {
         if (winner) {
             winner.chips += this.pot;
             this.showMessage(`${winner.name} wins ${this.pot} chips!`);
+        }
+
+        // Stats: wagered = chips the player committed this hand; returned = chips
+        // back from the pot (only if the player won). Net = returned - wagered.
+        if (typeof this._handStartChips === 'number' && typeof recordRound === 'function') {
+            const chipsAfterPot = this.playerObj.chips;
+            const playerWonPot  = winner && winner.id === 'player';
+            const potBackToPlayer = playerWonPot ? this.pot : 0;
+            const wagered = (this._handStartChips - chipsAfterPot) + potBackToPlayer;
+            if (wagered > 0) {
+                recordRound('holdem', { wagered: wagered, returned: potBackToPlayer });
+            }
+            this._handStartChips = null;
         }
 
         this.revealBotCards();
