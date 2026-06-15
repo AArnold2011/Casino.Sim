@@ -26,7 +26,8 @@ class BlackjackEngine {
         };
 
         this.bindEvents();
-        this.syncPoints();
+        this.refreshPoints();
+        this.savePoints();
         this.render();
     }
 
@@ -38,8 +39,15 @@ class BlackjackEngine {
         this.elements.betAmount.addEventListener('input', () => this.clampBetInput());
     }
 
-    syncPoints() {
+    // Pull the latest shared balance into this engine (used at startup so
+    // points carried over from other games are reflected here).
+    refreshPoints() {
         this.points = typeof getPlayerPoints === 'function' ? getPlayerPoints() : this.points;
+    }
+
+    // Persist this engine's current balance to the shared store. Must NOT
+    // re-read first, or local changes (bets, winnings) would be discarded.
+    savePoints() {
         if (typeof setPlayerPoints === 'function') {
             setPlayerPoints(this.points);
         }
@@ -135,7 +143,7 @@ class BlackjackEngine {
 
         this.bet = bet;
         this.points -= bet;
-        this.syncPoints();
+        this.savePoints();
         this.setStatus(`Bet ${bet} placed. ${this.points} points remaining.`);
 
         this.playerHand = [];
@@ -310,7 +318,7 @@ class BlackjackEngine {
 
         this.bet = 0;
         this.state = 'roundOver';
-        this.syncPoints();
+        this.savePoints();
         this.elements.betAmount.disabled = false;
         this.render();
     }
