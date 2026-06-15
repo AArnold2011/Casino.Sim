@@ -18,11 +18,10 @@ const CHIP_VALUES = [
 function getChipDenomination(amount) {
     for (const chip of CHIP_VALUES) {
         if (amount >= chip.value) {
-            return { value: chip.value, color: chip.color, name: chip.name,
-                     quantity: Math.floor(amount / chip.value) };
+            return { value: chip.value, color: chip.color, name: chip.name };
         }
     }
-    return { value: 1, color: 'white', name: '$1', quantity: amount };
+    return { value: 1, color: 'white', name: '$1' };
 }
 
 const HandEvaluator = (() => {
@@ -143,8 +142,6 @@ const HandEvaluator = (() => {
     return { preFlopStrength, rankHand, handToEquity };
 })();
 
-const PHASES = ['preFlop', 'flop', 'turn', 'river', 'showdown'];
-
 class TexasHoldemGame {
     constructor() {
         this.deck           = [];
@@ -154,7 +151,6 @@ class TexasHoldemGame {
         this.currentBet     = 0;
         this.gameActive     = false;
         this.gamePhase      = 'preFlop';
-        this.dealerIndex    = 5;
         this.smallBlindIndex = 0;
         this.bigBlindIndex  = 1;
         this.gameRound      = 0;
@@ -166,7 +162,6 @@ class TexasHoldemGame {
     }
 
     get playerObj()  { return this.players[0]; }
-    get playerChips(){ return this.playerObj.chips; }
 
     savePoints() {
         if (typeof setPlayerPoints === 'function') setPlayerPoints(this.playerObj.chips);

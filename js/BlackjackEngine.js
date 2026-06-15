@@ -204,7 +204,6 @@ class BlackjackEngine {
 
         this.state = 'dealerTurn';
         this.setStatus('You stand. Dealer will draw to 17.');
-        this.revealDealerHand();
         this.render();
 
         const dealerStep = () => {
@@ -227,7 +226,7 @@ class BlackjackEngine {
     }
 
     resolveNaturals() {
-        this.revealDealerHand();
+        this.state = 'dealerTurn';
         this.render();
 
         this.setStatus('Checking for blackjack...');
@@ -317,10 +316,6 @@ class BlackjackEngine {
         this.state = 'idle';
         this.setStatus('Place a bet and deal a hand.');
         this.render();
-    }
-
-    revealDealerHand() {
-        this.state = 'dealerTurn';
     }
 
     setStatus(message) {
