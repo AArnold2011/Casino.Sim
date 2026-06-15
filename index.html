@@ -22,9 +22,15 @@
 
     <header class="floor-header">
         <div class="header-logo">Casino Simulator</div>
-        <div class="header-points">
-            <div class="chip-icon"></div>
-            Points:&nbsp;<span id="pointsValue">1000</span>
+        <div class="header-right">
+            <a class="header-stats" href="Stats.html" title="View stats &amp; achievements">
+                <span class="header-stats-icon">📊</span>
+                <span class="header-stats-net" id="headerNet">+0</span>
+            </a>
+            <div class="header-points">
+                <div class="chip-icon"></div>
+                Points:&nbsp;<span id="pointsValue">1000</span>
+            </div>
         </div>
     </header>
 
@@ -149,8 +155,21 @@
     </section>
 
     <script src="js/PointsManager.js"></script>
+    <script src="js/StatsManager.js"></script>
+    <script src="js/AchievementsManager.js"></script>
     <script>
         if (typeof initializeSharedPoints === 'function') initializeSharedPoints();
+
+        (function () {
+            if (typeof StatsManager === 'undefined') return;
+            var totals = StatsManager.getTotals();
+            var el = document.getElementById('headerNet');
+            if (el) {
+                var net = totals.net;
+                el.textContent = (net >= 0 ? '+' : '') + net;
+                el.classList.add(net >= 0 ? 'net-pos' : 'net-neg');
+            }
+        })();
 
         (function() {
             var ts = document.getElementById('titleScreen');

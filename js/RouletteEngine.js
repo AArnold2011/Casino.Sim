@@ -168,6 +168,8 @@
 
         let totalWon = 0;
         let totalLost = 0;
+        let roundWagered = 0;
+        let roundReturned = 0;
         const evenMoneySet = new Set(['red', 'black', 'even', 'odd', 'low', 'high']);
 
         activeBets.forEach(bet => {
@@ -175,10 +177,13 @@
             const choiceRaw = bet.choice.toLowerCase();
 
             // La Partage: even-money bets lose only half when the ball lands on 0.
+            roundWagered += stake;
+
             if (resultNumber === 0 && evenMoneySet.has(choiceRaw)) {
-                const returned = stake / 2;
-                playerPoints += returned;
-                totalLost += returned;
+                const refund = stake / 2;
+                playerPoints += refund;
+                roundReturned += refund;
+                totalLost += refund;
                 return;
             }
 
@@ -214,7 +219,9 @@
             }
 
             if (win) {
-                playerPoints += stake * (1 + profitMultiplier);
+                const payout = stake * (1 + profitMultiplier);
+                playerPoints += payout;
+                roundReturned += payout;
                 totalWon += stake * profitMultiplier;
             } else {
                 totalLost += stake;
@@ -228,6 +235,10 @@
             betMessage.textContent = `Result: ${resultNumber}. Net loss: ${netResult}`;
         } else {
             betMessage.textContent = `Result: ${resultNumber}. Break even`;
+        }
+
+        if (roundWagered > 0 && typeof recordRound === 'function') {
+            recordRound('roulette', { wagered: roundWagered, returned: roundReturned });
         }
 
         updatePointsDisplay();

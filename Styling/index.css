@@ -339,3 +339,31 @@
             .floor-header { padding: 14px 20px; }
             .header-logo { font-size: 1.2rem; }
         }
+        /* ---- Header stats link (added with stats system) ---- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid rgba(201,168,76,0.4);
+            border-radius: 40px;
+            background: rgba(0,0,0,0.4);
+            text-decoration: none;
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .header-stats:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 14px rgba(201,168,76,0.3);
+        }
+        .header-stats-icon { font-size: 1.05rem; line-height: 1; }
+        .header-stats-net.net-pos { color: #6fcf7f; }
+        .header-stats-net.net-neg { color: #e08a8a; }
