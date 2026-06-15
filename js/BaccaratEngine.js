@@ -35,7 +35,8 @@ class BaccaratEngine {
         };
 
         this.bindEvents();
-        this.syncPoints();
+        this.refreshPoints();
+        this.savePoints();
         this.render();
     }
 
@@ -49,8 +50,15 @@ class BaccaratEngine {
         this.elements.betTie.addEventListener('click',    () => this.selectTarget('tie'));
     }
 
-    syncPoints() {
+    // Pull the latest shared balance into this engine (used at startup so
+    // points carried over from other games are reflected here).
+    refreshPoints() {
         this.points = typeof getPlayerPoints === 'function' ? getPlayerPoints() : this.points;
+    }
+
+    // Persist this engine's current balance to the shared store. Must NOT
+    // re-read first, or local changes (bets, winnings) would be discarded.
+    savePoints() {
         if (typeof setPlayerPoints === 'function') setPlayerPoints(this.points);
     }
 
@@ -139,7 +147,7 @@ class BaccaratEngine {
 
         this.bet = bet;
         this.points -= bet;
-        this.syncPoints();
+        this.savePoints();
 
         this.playerHand = [];
         this.bankerHand = [];
@@ -247,7 +255,7 @@ class BaccaratEngine {
         if (this.bet > 0 && typeof recordRound === 'function') {
             recordRound('baccarat', { wagered: this.bet, returned: winnings });
         }
-        this.syncPoints();
+        this.savePoints();
         this.setStatus(msg);
         this.state = 'roundOver';
         this.render();
