@@ -35,8 +35,25 @@
         { id: 'whale',         icon: '🐋', name: 'Whale',             desc: 'Wager 10,000 lifetime points.',
           test: function (s, sum) { return sum.totals.wagered >= 10000; } },
         { id: 'world_tour',    icon: '🌍', name: 'World Tour',        desc: 'Play every game at least once.',
-          test: function (s, sum) { return sum.totals.gamesPlayed >= (global.StatsManager ? global.StatsManager.GAMES.length : 5); } }
+          test: function (s, sum) { return sum.totals.gamesPlayed >= (global.StatsManager ? global.StatsManager.GAMES.length : 5); } },
+        { id: 'house_wins',    icon: '🏛️', image: 'images/FNV_Mr_House_Screen.jpg', name: 'The House Always Wins', desc: 'Hit 0 points at the end of a round.',
+          test: function (s, sum) {
+              const pts = (typeof global.getPlayerPoints === 'function') ? global.getPlayerPoints() : null;
+              return pts === 0;
+          } }
     ];
+
+    // Build the icon markup for an achievement: an <img> when an image path is
+    // set, otherwise the emoji glyph. Drop a file path into the achievement's
+    // `image` field (e.g. 'images/house-always-wins.png') to use custom art.
+    function iconMarkup(a, fallbackGlyph) {
+        if (a && a.image) {
+            return '<img src="' + a.image + '" alt="' + (a.name || '') + '" ' +
+                   'style="width:1em;height:1em;object-fit:contain;display:block;" ' +
+                   'onerror="this.replaceWith(document.createTextNode(\'' + (a.icon || '🏆') + '\'))">';
+        }
+        return fallbackGlyph != null ? fallbackGlyph : (a && a.icon ? a.icon : '🏆');
+    }
 
     function loadUnlocked() {
         let raw = null;
@@ -70,7 +87,7 @@
         const unlocked = loadUnlocked();
         return ACHIEVEMENTS.map(function (a) {
             return {
-                id: a.id, icon: a.icon, name: a.name, desc: a.desc,
+                id: a.id, icon: a.icon, image: a.image || '', name: a.name, desc: a.desc,
                 unlocked: !!unlocked[a.id], unlockedAt: unlocked[a.id] || null
             };
         });
@@ -121,7 +138,7 @@
         const toast = document.createElement('div');
         toast.className = 'ach-toast';
         toast.innerHTML =
-            '<div class="ach-ic">' + a.icon + '</div>' +
+            '<div class="ach-ic">' + iconMarkup(a) + '</div>' +
             '<div class="ach-tx">' +
                 '<div class="ach-eyebrow">Achievement Unlocked</div>' +
                 '<div class="ach-name">' + a.name + '</div>' +
@@ -142,6 +159,7 @@
     global.AchievementsManager = {
         ACH_KEY: ACH_KEY,
         getAchievements: getAchievements,
+        iconMarkup: iconMarkup,
         resetAchievements: resetAchievements,
         evaluateAchievements: evaluateAchievements
     };

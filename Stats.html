@@ -276,7 +276,7 @@
                 unlockedCount + ' of ' + achs.length + ' unlocked';
             document.getElementById('achGrid').innerHTML = achs.map(function (a) {
                 return '<div class="ach-card ' + (a.unlocked ? 'unlocked' : 'locked') + '">' +
-                    '<div class="ic">' + (a.unlocked ? a.icon : '🔒') + '</div>' +
+                    '<div class="ic">' + (a.unlocked ? (AchievementsManager.iconMarkup ? AchievementsManager.iconMarkup(a) : a.icon) : '🔒') + '</div>' +
                     '<div class="meta"><div class="name">' + a.name + '</div>' +
                     '<div class="desc">' + a.desc + '</div></div></div>';
             }).join('');
