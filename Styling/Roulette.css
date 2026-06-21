@@ -210,3 +210,39 @@
         div.columnone { background-color: #018a18 !important; color: #ffffff !important; }
         div.columntwo { background-color: #018a18 !important; color: #ffffff !important; }
         div.columnthree { background-color: #018a18 !important; color: #ffffff !important; }
+        /* ── Viewport fit (desktop no-scroll) ────────────── */
+        #rouletteContainer {
+            flex: 1 1 auto;
+            min-height: 0;
+            margin-top: 0;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            gap: clamp(16px, 3vw, 40px);
+            padding: clamp(10px, 2vh, 20px);
+            overflow: hidden;
+        }
+
+        #spinnerSection { min-width: 0; }
+        #boardSection   { min-width: 0; gap: clamp(4px, 0.8vh, 6px); }
+
+        /* Scale betting cells with the viewport (buttons are excluded) */
+        .numberRow .roulette-box,
+        #zeroRow .roulette-box,
+        .specialRow .roulette-box,
+        .numberRow > div,
+        #zeroRow > div,
+        .specialRow > div {
+            width: clamp(30px, 3.2vw, 44px);
+            height: clamp(28px, 4.4vh, 40px);
+            font-size: clamp(9px, 1.4vh, 11px);
+        }
+
+        .numberRow { grid-template-columns: repeat(12, clamp(30px, 3.2vw, 44px)); }
+        #zeroRow > div { width: clamp(60px, 7vw, 90px); }
+        .specialRow { grid-template-columns: repeat(3, clamp(80px, 9vw, 110px)); }
+        .specialRow > div { width: clamp(80px, 9vw, 110px) !important; }
+
+        @media (max-width: 768px), (max-height: 600px) {
+            #rouletteContainer { overflow: visible; }
+        }
