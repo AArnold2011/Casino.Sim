@@ -419,3 +419,38 @@
         font-size: 0.84rem;
     }
 }
+
+/* ── Viewport fit (desktop no-scroll) ────────────── */
+.baccarat-layout { padding-bottom: 0; gap: clamp(10px, 2vh, 18px); }
+
+.baccarat-table-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.baccarat-table {
+  width: min(96vw, 1100px);
+  max-height: 100%;
+  min-height: 0;
+  padding: clamp(16px, 3vh, 36px) clamp(18px, 3vw, 40px);
+}
+
+.baccarat-controls { flex: 0 0 auto; }
+
+.bac-cards-row { min-height: clamp(72px, 11vh, 110px); }
+
+.card {
+  width: clamp(48px, 6.4vh, 72px);
+  height: clamp(70px, 9.2vh, 104px);
+}
+
+.zone-score { font-size: clamp(1.4rem, 3.4vh, 2.2rem); }
+
+@media (max-width: 768px), (max-height: 600px) {
+  .baccarat-table-wrap { flex: 0 0 auto; }
+  .baccarat-table { max-height: none; }
+}

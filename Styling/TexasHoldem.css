@@ -533,3 +533,51 @@
   .button-panel { gap: 10px; }
   .info-panel { grid-template-columns: 1fr 1fr; }
 }
+/* ── Viewport fit (desktop no-scroll) ────────────── */
+.game-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  justify-content: center;
+  gap: clamp(8px, 1.5vh, 18px);
+  padding: clamp(8px, 1.5vh, 16px);
+  width: 100%;
+}
+
+.info-panel { gap: clamp(6px, 1.2vh, 12px); }
+.info-item {
+  padding: clamp(5px, 1vh, 12px) clamp(10px, 1.4vw, 16px);
+  font-size: clamp(0.68rem, 1.4vh, 0.82rem);
+}
+
+/* Table height follows the viewport; width keeps its cap */
+.poker-table {
+  height: min(600px, 54vh);
+  max-height: 54vh;
+  width: min(95vw, 1300px);
+}
+
+/* Cards scale down on short screens so seats don't collide */
+.card {
+  width: clamp(40px, 4.8vh, 58px);
+  height: clamp(60px, 7.2vh, 86px);
+}
+
+/* Seat offsets as percentages so they track any table height */
+.dealer-position { top: 1.5%; }
+.player-position { bottom: 1.5%; }
+.bot-position-1 { right: 2.4%; top: 9%; }
+.bot-position-2 { right: 3.2%; top: 38%; }
+.bot-position-3 { right: 2.4%; bottom: 9%; }
+.bot-position-4 { left: 2.4%; bottom: 9%; }
+.bot-position-5 { left: 3.2%; top: 38%; }
+.bot-position-6 { left: 2.4%; top: 9%; }
+
+/* Compact the lower controls a touch */
+.button-panel, .game-control-buttons { gap: clamp(8px, 1.2vw, 14px); }
+.action-button { padding: clamp(8px, 1.4vh, 13px) clamp(12px, 1.4vw, 20px); }
+.control-btn   { padding: clamp(7px, 1.2vh, 11px) clamp(14px, 1.6vw, 24px); }
+
+@media (max-width: 768px), (max-height: 600px) {
+  .poker-table { height: 460px; max-height: none; }
+  .card { width: 48px; height: 72px; }
+}

@@ -296,3 +296,47 @@ a:active  { color: var(--text); }
   .game-link { min-width: 100px; font-size: 0.76rem; padding: 8px 14px; }
   .return-home-badge { width: 46px; height: 46px; bottom: 12px; left: 12px; }
 }
+/* ═══════════════════════════════════════════════════
+   VIEWPORT FIT — desktop no-scroll; phones & very short
+   windows scroll. Shared scaffold for all game pages.
+   (Slots manages its own lock in Slots.css; index in index.css)
+   ═══════════════════════════════════════════════════ */
+html, body { height: 100%; }
+
+body {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.casino-header {
+  flex: 0 0 auto;
+  padding: clamp(8px, 1.8vh, 24px) 20px clamp(6px, 1vh, 14px);
+}
+
+.casino-header h1 {
+  font-size: clamp(1.15rem, 2.6vh, 2rem);
+  margin: 0 0 clamp(4px, 1vh, 10px);
+}
+
+.casino-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  justify-content: center;
+  gap: clamp(10px, 2vh, 24px);
+  padding: clamp(10px, 2vh, 24px) 20px;
+  overflow: hidden;
+}
+
+/* Phones: release the lock and allow natural vertical scroll */
+@media (max-width: 768px) {
+  body { height: auto; min-height: 100vh; overflow-x: hidden; overflow-y: auto; }
+  .casino-main { overflow: visible; justify-content: flex-start; }
+}
+
+/* Very short windows: allow a minimal scroll instead of clipping content */
+@media (max-height: 600px) {
+  body { height: auto; min-height: 100vh; overflow-y: auto; }
+  .casino-main { overflow: visible; justify-content: flex-start; }
+}
