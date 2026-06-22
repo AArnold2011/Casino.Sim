@@ -10,7 +10,6 @@ class BaccaratEngine {
         this.dealDelay = 480;
         this.roundTimeout = null;
 
-        this.stats = { player: 0, banker: 0, tie: 0, rounds: 0 };
 
         this.elements = {
             betAmount:       document.getElementById('betAmount'),
@@ -25,10 +24,6 @@ class BaccaratEngine {
             bankerScore:     document.getElementById('bankerScore'),
             playerNatural:   document.getElementById('playerNatural'),
             bankerNatural:   document.getElementById('bankerNatural'),
-            statPlayer:      document.getElementById('statPlayer'),
-            statBanker:      document.getElementById('statBanker'),
-            statTie:         document.getElementById('statTie'),
-            statRounds:      document.getElementById('statRounds'),
             betPlayer:       document.getElementById('betTargetPlayer'),
             betBanker:       document.getElementById('betTargetBanker'),
             betTie:          document.getElementById('betTargetTie'),
@@ -221,14 +216,12 @@ class BaccaratEngine {
     finishRound() {
         const pt = this.handTotal(this.playerHand);
         const bt = this.handTotal(this.bankerHand);
-        this.stats.rounds++;
 
         let outcome;
         if (pt > bt) outcome = 'player';
         else if (bt > pt) outcome = 'banker';
         else outcome = 'tie';
 
-        this.stats[outcome]++;
 
         let winnings = 0;
         let msg = '';
@@ -259,7 +252,6 @@ class BaccaratEngine {
         this.setStatus(msg);
         this.state = 'roundOver';
         this.render();
-        this.updateStats();
     }
 
     resetRound() {
@@ -284,13 +276,6 @@ class BaccaratEngine {
     renderHand(container, hand) {
         container.innerHTML = '';
         hand.forEach(card => container.appendChild(this.renderCard(card)));
-    }
-
-    updateStats() {
-        this.elements.statPlayer.textContent = this.stats.player;
-        this.elements.statBanker.textContent = this.stats.banker;
-        this.elements.statTie.textContent    = this.stats.tie;
-        this.elements.statRounds.textContent = this.stats.rounds;
     }
 
     render() {
