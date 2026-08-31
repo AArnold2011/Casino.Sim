@@ -186,7 +186,7 @@ class TexasHoldemGame {
             id: 'player', name: 'You',
             chips: 1000, maxChips: 1000,
             hand: [], bet: 0, folded: false, isBot: false,
-            botAction: '', personality: null
+            botAction: '', personality: null, contributedThisHand: 0
         });
         const personalities = ['tight', 'aggressive', 'loose', 'passive', 'balanced', 'tight'];
         for (let i = 1; i <= 6; i++) {
@@ -194,7 +194,7 @@ class TexasHoldemGame {
                 id: `bot${i}`, name: `Bot ${i}`,
                 chips: 500, maxChips: 500,
                 hand: [], bet: 0, folded: false, isBot: true,
-                botAction: '', personality: personalities[i - 1]
+                botAction: '', personality: personalities[i - 1], contributedThisHand: 0
             });
         }
     }
@@ -324,10 +324,11 @@ class TexasHoldemGame {
         this.rotateBlind();
 
         for (const p of this.players) {
-            p.hand      = [];
-            p.bet       = 0;
-            p.folded    = false;
-            p.botAction = '';
+            p.hand                 = [];
+            p.bet                  = 0;
+            p.folded               = false;
+            p.botAction            = '';
+            p.contributedThisHand  = 0;
             if (p.chips <= 0) p.chips = p.maxChips || Math.max(Math.floor(this.playerObj.chips * 0.5), 100);
         }
 
@@ -376,8 +377,10 @@ class TexasHoldemGame {
     }
 
     enablePlayerActions() {
+        const hasOutstandingBet = this.currentBet > this.playerObj.bet;
+        const hasContributed = this.playerObj.contributedThisHand > 0;
         document.getElementById('betBtn').disabled   = false;
-        document.getElementById('checkBtn').disabled = false;
+        document.getElementById('checkBtn').disabled = hasOutstandingBet || !hasContributed;
         document.getElementById('foldBtn').disabled  = false;
     }
 
@@ -389,8 +392,12 @@ class TexasHoldemGame {
 
     openBetModal() {
         const input       = document.getElementById('betInput');
+        const needed      = Math.max(1, this.currentBet - this.playerObj.bet);
+        input.min         = this.currentBet > this.playerObj.bet ? String(needed) : '1';
         input.max         = this.playerObj.chips;
-        input.placeholder = `Max: ${this.playerObj.chips}`;
+        input.placeholder = this.currentBet > this.playerObj.bet
+            ? `Call at least ${needed} (max: ${this.playerObj.chips})`
+            : `Max: ${this.playerObj.chips}`;
         input.value       = '';
         document.getElementById('betModal').classList.add('active');
         input.focus();
@@ -403,13 +410,20 @@ class TexasHoldemGame {
     placeBet() {
         const input     = document.getElementById('betInput');
         const betAmount = parseInt(input.value);
-        if (isNaN(betAmount) || betAmount < 1 || betAmount > this.playerObj.chips) {
-            alert('Invalid bet amount'); return;
+        const required  = this.currentBet > this.playerObj.bet ? this.currentBet - this.playerObj.bet : 1;
+
+        if (isNaN(betAmount) || betAmount < required || betAmount > this.playerObj.chips) {
+            alert(this.currentBet > this.playerObj.bet
+                ? `You must bet at least ${required} to continue.`
+                : 'Invalid bet amount');
+            return;
         }
+
         this.playerObj.chips -= betAmount;
         this.playerObj.bet    = betAmount;
+        this.playerObj.contributedThisHand += betAmount;
         this.pot             += betAmount;
-        this.currentBet       = betAmount;
+        this.currentBet       = Math.max(this.currentBet, betAmount);
         this.closeBetModal();
         this.updateDisplay();
         this.showMessage(`You bet ${betAmount} chips`);
@@ -420,6 +434,13 @@ class TexasHoldemGame {
 
     checkAction() {
         if (this._actionLock) return;
+        if (this.currentBet > this.playerObj.bet || this.playerObj.contributedThisHand === 0) {
+            const reason = this.currentBet > this.playerObj.bet
+                ? 'You must call or fold — checking is not allowed while there is an active bet.'
+                : 'You must bet or fold before you can check.';
+            this.showMessage(reason);
+            return;
+        }
         this._actionLock = true;
         this.disableActions(true);
         this.showMessage('You checked');
@@ -472,6 +493,12 @@ class TexasHoldemGame {
             return { action: 'call', amount: Math.min(toCall, maxBet) };
         }
 
+        if (bot.contributedThisHand === 0) {
+            if (effEquity < foldThreshold - 0.05) return { action: 'fold', amount: 0 };
+            const bet = this.calcBetSize(bot, effEquity, pot, personality);
+            return { action: 'bet', amount: Math.min(bet, maxBet) };
+        }
+
         if (effEquity < foldThreshold - 0.05) return { action: 'check', amount: 0 };
         if (effEquity >= raiseThreshold - 0.10) {
             const bet = this.calcBetSize(bot, effEquity, pot, personality);
@@ -522,6 +549,7 @@ class TexasHoldemGame {
                     const amt   = decision.amount;
                     bot.chips  -= amt;
                     bot.bet    += amt;
+                    bot.contributedThisHand += amt;
                     this.pot   += amt;
                     bot.botAction = `Called ${amt}`;
                     this.showMessage(`${bot.name} called ${amt}`);
@@ -532,6 +560,7 @@ class TexasHoldemGame {
                     const amt   = decision.amount;
                     bot.chips  -= amt;
                     bot.bet    += amt;
+                    bot.contributedThisHand += amt;
                     this.pot   += amt;
                     this.currentBet = Math.max(this.currentBet, bot.bet);
                     const label = decision.action === 'raise' ? 'raised' : 'bet';
@@ -643,9 +672,10 @@ class TexasHoldemGame {
         this._actionLock    = false;
 
         for (const p of this.players) {
-            p.hand   = [];
-            p.bet    = 0;
-            p.folded = false;
+            p.hand                = [];
+            p.bet                 = 0;
+            p.folded              = false;
+            p.contributedThisHand = 0;
             if (p.id === 'player') {
                 const pts = (typeof getPlayerPoints === 'function') ? getPlayerPoints() : 1000;
                 p.chips    = pts;
