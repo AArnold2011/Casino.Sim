@@ -154,6 +154,20 @@
         </div>
     </section>
 
+    <div class="debug-popup hidden" id="debugPopup">
+        <div class="debug-popup-card" role="dialog" aria-modal="true" aria-labelledby="debugPopupTitle">
+            <form id="debugForm">
+                <label class="debug-popup-label" for="debugPassword">Enter access code</label>
+                <input class="debug-popup-input" id="debugPassword" type="text" autocomplete="off" spellcheck="false">
+                <div class="debug-popup-error" id="debugError" role="alert" aria-live="polite"></div>
+                <button class="debug-popup-button" type="submit">OK</button>
+            </form>
+            <div class="debug-menu hidden" id="debugMenu">
+                <div class="debug-menu-status">Debug menu unlocked</div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/PointsManager.js"></script>
     <script src="js/StatsManager.js"></script>
     <script src="js/AchievementsManager.js"></script>
@@ -169,6 +183,47 @@
                 el.textContent = (net >= 0 ? '+' : '') + net;
                 el.classList.add(net >= 0 ? 'net-pos' : 'net-neg');
             }
+        })();
+
+        (function () {
+            var debugPopup = document.getElementById('debugPopup');
+            var debugForm = document.getElementById('debugForm');
+            var debugPassword = document.getElementById('debugPassword');
+            var debugError = document.getElementById('debugError');
+            var debugMenu = document.getElementById('debugMenu');
+            var logo = document.querySelector('.header-logo');
+
+            if (!debugPopup || !debugForm || !debugPassword || !debugError || !debugMenu || !logo) return;
+
+            function openDebugPrompt() {
+                debugPopup.classList.remove('hidden');
+                debugMenu.classList.add('hidden');
+                debugError.textContent = '';
+                debugPassword.value = '';
+                debugPassword.focus();
+            }
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== '`') return;
+                var selectedText = window.getSelection().toString().trim();
+                if (selectedText === logo.textContent.trim()) openDebugPrompt();
+            });
+
+            debugForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (debugPassword.value === 'opensesame') {
+                    debugError.textContent = '';
+                    debugMenu.classList.remove('hidden');
+                    return;
+                }
+                debugMenu.classList.add('hidden');
+                debugError.textContent = 'Access code not recognized';
+                debugPassword.select();
+            });
+
+            debugPopup.addEventListener('click', function (event) {
+                if (event.target === debugPopup) debugPopup.classList.add('hidden');
+            });
         })();
 
         (function() {

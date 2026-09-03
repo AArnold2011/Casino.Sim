@@ -101,6 +101,8 @@
             font-size: 1.6rem;
             font-weight: 700;
             letter-spacing: 0.15em;
+            user-select: text;
+            cursor: text;
             background: linear-gradient(135deg, #c9a84c, #f0dc96, #c9a84c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -367,6 +369,92 @@
         .header-stats-icon { font-size: 1.05rem; line-height: 1; }
         .header-stats-net.net-pos { color: #6fcf7f; }
         .header-stats-net.net-neg { color: #e08a8a; }
+
+        /* ── Hidden debug access prompt ──────────────────── */
+        .debug-popup {
+            position: fixed;
+            inset: 0;
+            z-index: 9500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(4, 1, 2, 0.78);
+            backdrop-filter: blur(4px);
+        }
+        .debug-popup.hidden,
+        .debug-menu.hidden { display: none; }
+
+        .debug-popup-card {
+            width: min(400px, 100%);
+            padding: 28px;
+            border: 3px solid var(--rail-wood);
+            outline: 1px solid var(--gold);
+            background: linear-gradient(180deg, rgba(42,20,16,0.98), rgba(22,10,14,0.98));
+            box-shadow: 0 0 0 4px var(--rail-dark), 0 20px 60px rgba(0,0,0,0.8), 0 0 28px rgba(201,168,76,0.3);
+            text-align: center;
+        }
+
+        .debug-popup-title {
+            margin-bottom: 22px;
+            color: var(--gold-light);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .debug-popup-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .debug-popup-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(201,168,76,0.55);
+            border-radius: 3px;
+            outline: none;
+            background: rgba(0,0,0,0.55);
+            color: var(--text-cream);
+            font: inherit;
+            text-align: center;
+        }
+        .debug-popup-input:focus { border-color: var(--gold-light); box-shadow: 0 0 12px rgba(201,168,76,0.28); }
+
+        .debug-popup-error {
+            min-height: 20px;
+            margin-top: 8px;
+            color: #e08a8a;
+            font-size: 0.75rem;
+        }
+
+        .debug-popup-button {
+            min-width: 110px;
+            padding: 10px 26px;
+            border: 1px solid #f0dc96;
+            border-radius: 3px;
+            background: linear-gradient(180deg, #e8cc7a, #b18a32);
+            color: #281506;
+            cursor: pointer;
+            font: 700 0.85rem 'Inter', sans-serif;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            box-shadow: 0 3px 0 #76531a, 0 0 14px rgba(232,204,122,0.25);
+        }
+        .debug-popup-button:hover { filter: brightness(1.12); }
+        .debug-popup-button:active { transform: translateY(2px); box-shadow: 0 1px 0 #76531a; }
+
+        .debug-menu {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(201,168,76,0.3);
+        }
+        .debug-menu-status { color: #6fcf7f; font-size: 0.8rem; letter-spacing: 0.08em; }
 
         /* ── Viewport fit: desktop no-scroll; phones & short windows scroll ── */
         html, body { height: 100%; }
